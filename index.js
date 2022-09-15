@@ -6,6 +6,12 @@ document.addEventListener("DOMContentLoaded", start);
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 let cleanedData = [];
 
+const settings = {
+  filter: "all",
+  sortBy: "name",
+  sortDir: "asc",
+};
+
 //Prototype
 const Student = {
   firstName: "",
@@ -14,6 +20,9 @@ const Student = {
   nickName: undefined,
   imageFile: "",
   house: "",
+  prefect: false,
+  expelled: false,
+  bloodStatus: "",
 };
 
 function start() {
@@ -27,6 +36,9 @@ function registerButtons() {
   document
     .querySelectorAll("[data-action='filter']")
     .forEach((button) => button.addEventListener("click", selectFilter));
+  document
+    .querySelectorAll("[data-action='sort']")
+    .addEventListener("change", selectSort);
 }
 
 async function loadJSON() {
@@ -37,9 +49,10 @@ async function loadJSON() {
 
 function prepareObjects(jsonData) {
   cleanedData = jsonData.map(prepareObject);
-  console.log(cleanedData);
-  showData(cleanedData);
+
+  buildList();
 }
+
 function prepareObject(jsonObject) {
   const studentTemp = Object.create(Student);
   let nameArray = jsonObject.fullname.trim();
@@ -79,6 +92,19 @@ function prepareObject(jsonObject) {
 
   return studentTemp;
 }
+
+//Filtering
+function selectFilter(event) {
+  const filter = event.target.dataset.filter;
+  setFilter(filter);
+}
+
+function setFilter(filter) {
+  settings.filter = filter;
+  buildList();
+}
+
+//Cleaning data
 
 function firstNameClean(firstNames) {
   firstNames = firstNames.charAt(0).toUpperCase() + firstNames.slice(1);

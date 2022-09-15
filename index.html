@@ -27,35 +27,56 @@
               <button class= "filter" data-action="filter" data-filter="inquisitorial">Inquisitorial</button>
             </p>
           </div>
-          <select name="sorting" id="sorting">
-            <option value="1">Sort By</option>
-            <option value="2">First Name</option>
-            <option value="3">Last Name</option>
-            <option value="4">House</option>
-            <option value="5">Resposibility</option>
-          </select>
+          <div>
+            <h5>Sorting</h5>
+            <select name="sorting" id="sorting">
+              <option data-action="sort" data-sort="firstName" value="1">First Name</option>
+              <option data-action="sort" data-sort="lastName" value="2">Last Name</option>
+              <option data-action="sort" data-sort="house" value="3">House</option>
+              <option data-action="sort" data-sort="prefect" value="4">Prefect</option>
+              <option data-action="sort" data-sort="inquisitorial" value="5">Inquisitorial</option>
+            </select>
+          </div>
         </div>
       </section>
       <section id="pasteTemplate" class="gridView">
-
       </section>
-      <section class="pop-up hidden">
+      <section class="pop-up">
         <div>
-          <div><img data-field="studentPortait" src="#" alt="#" /><img data-field="houdeCrest" src="#" alt="#" /></div>
+          <div><img data-field="studentPortait" src="#" alt="Image of Student" /> <figure><img data-field="houdeCrest" src="#" alt="Image of House Crest" />
+          <figcaption>Crest of <span data-field="houseName">House</span></figcaption></figure></div>
           <div>
-            <h3></h3>
-            <p></p>
-            <p></p>
-          </div>
-          <div>
-            <ul>
-              <li>Prefects</li>
-              <li>Disiplin</li>
-              <li>Expelled</li>
-            </ul>
+            <h3>Last Name</h3>
+            <h4><span>Name,</span> <span>Middle Name,</span> <span>"Nick Name"</span></h4>
+            <p>House</p>
+            <div>
+              <ul>
+                <li id="prefectStatus">Prefects: <span data-field="prefect">❌👑</span></li>
+                <li id="inquisitorialStatus">Inquisitorial Squad: <span data-field="inqusitorial">❌🎖️</span></li>
+                <li id="expelledStatus">Expelled: <span data-field="expelled">❌❗</span></li>
+              </ul>
+            </div>
           </div>
         </div>
       </section>
+      <div id="prefectWarning" class="modal hidden">
+        <div class="dialog">
+          <button class="closeButton">X</button>
+          <h1>Warning!</h1>
+          <p>
+            There can not be anymore than two prefects per House.<br />
+            Do you want to remove one of the existing prefects?
+          </p>
+          <div class="sidebyside">
+            <button id="removea">
+              remove <span data-field="prefectA">A</span>
+            </button>
+            <button id="removeb">
+              remove <span data-field="prefectB">B</span>
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
     <footer>
       <p>Hogwarts Sc  hool of Witchcraft and Wizardry</p>
