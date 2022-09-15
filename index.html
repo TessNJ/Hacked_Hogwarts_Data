@@ -21,7 +21,6 @@
               <button class= "filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
               <button class= "filter" data-action="filter" data-filter="slytherin">Slytherin</button>
               <button class= "filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
-              <button class= "filter" data-action="filter" data-filter="non-expelled">Non-Expelled</button>
               <button class= "filter" data-action="filter" data-filter="expelled">Expelled</button>
               <button class= "filter" data-action="filter" data-filter="prefects">Prefects</button>
               <button class= "filter" data-action="filter" data-filter="inquisitorial">Inquisitorial</button>
@@ -30,19 +29,21 @@
           <div>
             <h5>Sorting</h5>
             <select name="sorting" id="sorting">
-              <option data-action="sort" data-sort="firstName" value="1">First Name</option>
-              <option data-action="sort" data-sort="lastName" value="2">Last Name</option>
-              <option data-action="sort" data-sort="house" value="3">House</option>
-              <option data-action="sort" data-sort="prefect" value="4">Prefect</option>
-              <option data-action="sort" data-sort="inquisitorial" value="5">Inquisitorial</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="firstName" value="1">First Name</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="lastName" value="2">Last Name</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="house" value="3">House</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="prefect" value="4">Prefect</option>
+              <option data-action="sort" data-sort-direction="asc" data-sort="inquisitorial" value="5">Inquisitorial</option>
             </select>
           </div>
         </div>
       </section>
       <section id="pasteTemplate" class="gridView">
+        <!-- template will be copied here -->
       </section>
-      <section class="pop-up">
-        <div>
+      <div id="pop-up" class="modal hidden">
+        <div class="dialog">
+          <button class="closeButton">X</button>
           <div><img data-field="studentPortait" src="#" alt="Image of Student" /> <figure><img data-field="houdeCrest" src="#" alt="Image of House Crest" />
           <figcaption>Crest of <span data-field="houseName">House</span></figcaption></figure></div>
           <div>
@@ -58,7 +59,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </dive>
       <div id="prefectWarning" class="modal hidden">
         <div class="dialog">
           <button class="closeButton">X</button>
@@ -79,7 +80,7 @@
       </div>
     </main>
     <footer>
-      <p>Hogwarts Sc  hool of Witchcraft and Wizardry</p>
+      <p>Hogwarts School of Witchcraft and Wizardry</p>
       <p>Disclaimer: This is a student project</p>
     </footer>
     <!-- Template -->

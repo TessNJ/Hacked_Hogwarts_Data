@@ -37,8 +37,8 @@ function registerButtons() {
     .querySelectorAll("[data-action='filter']")
     .forEach((button) => button.addEventListener("click", selectFilter));
   document
-    .querySelectorAll("[data-action='sort']")
-    .addEventListener("change", selectSort);
+    .querySelector("[data-action='sort']")
+    .addEventListener("change", selectSorting);
 }
 
 async function loadJSON() {
@@ -104,6 +104,113 @@ function setFilter(filter) {
   buildList();
 }
 
+function filterList(filteredList) {
+  if (settings.filter === "hufflepuff") {
+    console.log(settings.filter);
+  } else if (settings.filter === "gryffindor") {
+    console.log(settings.filter);
+  } else if (settings.filter === "slytherin") {
+    console.log(settings.filter);
+  } else if (settings.filter === "ravenclaw") {
+    console.log(settings.filter);
+  } else if (settings.filter === "expelled") {
+    console.log(settings.filter);
+  } else if (settings.filter === "prefects") {
+    console.log(settings.filter);
+  } else if (settings.filter === "inquisitorial") {
+    console.log(settings.filter);
+  }
+  return filteredList;
+}
+//filter function
+//Sorting
+function selectSorting(event) {
+  const sortBy = event.target.dataset.sort;
+  const sortDir = event.target.dataset.sortDirection;
+
+  //toggle direction
+  if (sortDir === "asc") {
+    event.target.dataset.sortDirection = "desc";
+  } else {
+    event.target.dataset.sortDirection = "asc";
+  }
+  console.log(sortBy, sortDir);
+  setSort(sortBy, sortDir);
+}
+
+function setSort(sortBy, sortDir) {
+  settings.sortBy = sortBy;
+  settings.sortDir = sortDir;
+  buildList();
+}
+
+function sortList(sortedList) {
+  let direction = 1;
+  if (settings.sortDir === "desc") {
+    direction = -1;
+  } else {
+    direction = 1;
+  }
+
+  sortedList = sortedList.sort(sortByProperty);
+  function sortByProperty(studentA, studentB) {
+    if (studentA[settings.sortBy] < studentB[settings.sortBy]) {
+      return -1 * direction;
+    } else {
+      return 1 * direction;
+    }
+  }
+  return sortedList;
+}
+
+//Build List
+function buildList() {
+  const currentList = filterList(cleanedData);
+  // const sortedList = sortList(currentList);
+  displayList(currentList);
+  // displayList(sortedList);
+}
+
+/////////////////////////////////////////////////////////
+//Show data
+function displayList(students) {
+  document.querySelector("#pasteTemplate").innerHTML = "";
+  students.forEach(displayStudent);
+}
+
+function displayStudent(student) {
+  //create clone
+  const myTemplate = document.querySelector("#newTemplate").content;
+  const myCopy = myTemplate.cloneNode(true);
+
+  //Easy Content
+  myCopy.querySelector("[data-field=firstName]").textContent =
+    student.firstName;
+  myCopy.querySelector("[data-field=lastName]").textContent = student.lastName;
+  myCopy.querySelector("[data-field=house]").textContent = student.house;
+  if (student.middleName != undefined) {
+    myCopy.querySelector("[data-field=middleName]").textContent =
+      student.middleName;
+  }
+  if (student.nickName != undefined) {
+    myCopy.querySelector("[data-field=nickName]").textContent =
+      student.nickName;
+  }
+  /* myCopy.querySelector(".imgStudent").src = student.imageFile;
+  myCopy.querySelector(".imgStudent").alt = `Image of ${student.lastName}`; */
+  //Paste Change
+
+  //Prefect
+
+  //Inquisitorial
+
+  //Expelled
+
+  // append clone
+  const parent = document.querySelector("#pasteTemplate");
+  parent.appendChild(myCopy);
+}
+
 //Cleaning data
 
 function firstNameClean(firstNames) {
@@ -162,69 +269,4 @@ function houseFind(houseNames) {
   let houseSort = houseNames.toLowerCase();
   houseSort = houseSort.charAt(0).toUpperCase() + houseSort.slice(1);
   return houseSort;
-}
-//Filtering
-function selectFilter(event) {
-  const filter = event.target.dataset.filter;
-  console.log(filter);
-  filterList(filter);
-}
-function filterList(filterOption) {
-  let filteredList = cleanedData;
-  if (filterOption === "hufflepuff") {
-    filteredList = cleanedData.filter(isHufflepuff);
-    console.log(filteredList);
-  } else if (filterOption === "gryffindor") {
-    filteredList = cleanedData.filter(isGryffindor);
-    console.log(filteredList);
-  } else if (filterOption === "slytherin") {
-    filteredList = cleanedData.filter(isSlytherin);
-    console.log(filteredList);
-  } else if (filterOption === "ravenclaw") {
-    filteredList = cleanedData.filter(isRavenclaw);
-    console.log(filteredList);
-  }
-  showData(filteredList);
-}
-
-function isHufflepuff(houseIs) {
-  return houseIs.house === "Hufflepuff";
-}
-function isGryffindor(houseIs) {
-  return houseIs.house === "Gryffindor";
-}
-function isSlytherin(houseIs) {
-  return houseIs.house === "Slytherin";
-}
-function isRavenclaw(houseIs) {
-  return houseIs.house === "Ravenclaw";
-}
-
-/////////////////////////////////////////////////////////
-//Show data
-
-function showData(students) {
-  document.querySelector("#pasteTemplate").innerHTML = "";
-  students.forEach(showStudent);
-}
-function showStudent(student) {
-  const myTemplate = document.querySelector("#newTemplate").content;
-  const myCopy = myTemplate.cloneNode(true);
-  //Change Here
-  myCopy.querySelector("[data-field=firstName]").textContent =
-    student.firstName;
-  myCopy.querySelector("[data-field=lastName]").textContent = student.lastName;
-  myCopy.querySelector("[data-field=house]").textContent = student.house;
-  if (student.middleName != undefined) {
-    myCopy.querySelector(".middleName").textContent = student.middleName;
-  }
-  if (student.nickName != undefined) {
-    myCopy.querySelector("[data-field=nickName]").textContent =
-      student.nickName;
-  }
-  /* myCopy.querySelector(".imgStudent").src = student.imageFile;
-  myCopy.querySelector(".imgStudent").alt = `Image of ${student.lastName}`; */
-  //Paste Change
-  const parent = document.querySelector("#pasteTemplate");
-  parent.appendChild(myCopy);
 }
