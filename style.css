@@ -1,0 +1,154 @@
+/* Reset Styling */
+*,
+*::before,
+*::after {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+/* Root */
+:root {
+  --main-bg-colour: rgb(246, 232, 193);
+  --secondary-colour: rgb(191, 115, 61);
+  --main-font-colour: black;
+  --secondary-font-colour: white;
+}
+
+/* Data related  */
+[data-action] {
+  cursor: pointer;
+}
+
+/* General */
+body {
+  background-color: var(--main-bg-colour);
+  color: var(--main-font-colour);
+}
+header {
+  text-align: center;
+  padding: 2%;
+  background-color: var(--secondary-colour);
+  color: var(--main-font-colour);
+}
+
+.studentDiv {
+  border: 1px solid red;
+  max-width: 100%;
+  padding: 6% 0;
+  border-radius: 1vw;
+  background-color: rgb(252, 241, 222);
+  display: flex;
+  flex-direction: column;
+}
+
+.studentDiv div {
+  padding-left: 7%;
+}
+
+.studentDiv img {
+  max-width: 60%;
+  align-self: center;
+}
+
+.listManipluation {
+  max-width: 95%;
+  margin: 0 auto;
+}
+.listSections {
+  display: flex;
+  justify-content: space-between;
+  /* flex-wrap: wrap; */
+}
+#sorting {
+  background-color: transparent;
+  border: none;
+  font-style: italic;
+  height: 5vh;
+  margin: auto 0;
+}
+#sorting:hover {
+  background-color: rgb(235, 235, 235);
+  border-radius: 1vw;
+}
+.listSections p {
+  display: flex;
+  max-width: 100%;
+  gap: 0 2%;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+.listSections button {
+  border: none;
+  background-color: rgb(249, 243, 255);
+  padding: 2%;
+  cursor: pointer;
+  margin: 1%;
+}
+.listFiltering {
+  width: 100%;
+}
+
+.gridView {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 100%;
+  gap: 5vw 0;
+}
+
+footer {
+  text-align: center;
+  background-color: var(--secondary-colour);
+  color: var(--main-font-colour);
+}
+
+.pop-up {
+  border: red 1px solid;
+  width: 30%;
+  background-color: var(--secondary-colour);
+  position: absolute;
+  top: 30%;
+  left: 35%;
+}
+
+li {
+  list-style: none;
+}
+/* Media Queries */
+
+@supports (display: grid) {
+  @media screen and (min-width: 768px) {
+    .gridView {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      height: 100%;
+      justify-content: space-between;
+      gap: 1vw 1vw;
+      width: 95%;
+      margin: 0 auto;
+      padding: 1% 0;
+    }
+
+    .listSections p {
+      max-width: 80%;
+      flex-wrap: nowrap;
+      gap: 0 2%;
+      justify-content: flex-start;
+    }
+    .listSections button {
+      padding: 1%;
+      margin: 0;
+    }
+  }
+  @media screen and (min-width: 1101px) {
+    .gridView {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      height: 100%;
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}

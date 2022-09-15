@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css">
+    <title>Cleaning Hogwarts Data</title>
+  </head>
+  <body>
+    <header><h1>Hogwarts</h1></header>
+    <main>
+      <section class="listManipluation">
+        <h1>Student List</h1>
+        <div class="listSections">
+          <div class="listFiltering">
+            <h5>Filtering</h5>
+            <p>
+              <button class= "filter" data-action="filter" data-filter="*">All</button>
+              <button class= "filter" data-action="filter" data-filter="hufflepuff">Hufflepuff</button>
+              <button class= "filter" data-action="filter" data-filter="gryffindor">Gryffindor</button>
+              <button class= "filter" data-action="filter" data-filter="slytherin">Slytherin</button>
+              <button class= "filter" data-action="filter" data-filter="ravenclaw">Ravenclaw</button>
+              <button class= "filter" data-action="filter" data-filter="non-expelled">Non-Expelled</button>
+              <button class= "filter" data-action="filter" data-filter="expelled">Expelled</button>
+              <button class= "filter" data-action="filter" data-filter="prefects">Prefects</button>
+              <button class= "filter" data-action="filter" data-filter="inquisitorial">Inquisitorial</button>
+            </p>
+          </div>
+          <select name="sorting" id="sorting">
+            <option value="1">Sort By</option>
+            <option value="2">First Name</option>
+            <option value="3">Last Name</option>
+            <option value="4">House</option>
+            <option value="5">Resposibility</option>
+          </select>
+        </div>
+      </section>
+      <section id="pasteTemplate" class="gridView">
+
+      </section>
+      <section class="pop-up hidden">
+        <div>
+          <div><img data-field="studentPortait" src="#" alt="#" /><img data-field="houdeCrest" src="#" alt="#" /></div>
+          <div>
+            <h3></h3>
+            <p></p>
+            <p></p>
+          </div>
+          <div>
+            <ul>
+              <li>Prefects</li>
+              <li>Disiplin</li>
+              <li>Expelled</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <p>Hogwarts Sc  hool of Witchcraft and Wizardry</p>
+      <p>Disclaimer: This is a student project</p>
+    </footer>
+    <!-- Template -->
+    <template id="newTemplate">
+      <div class="studentDiv">
+        <!-- <img src="#" alt="Image of Student" class="imgStudent" /> -->
+        <div>
+        <h2 data-field="lastName"></h2>
+        <h3 data-field="firstName"></h3>
+        <h3 data-field="middleName"></h3>
+        <p data-field="nickName"></p>
+        <h4 data-field="house"></h2>
+        </div>
+      </div>
+    </template>
+    <script src="index.js"></script>
+  </body>
+</html>
