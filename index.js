@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", start);
 //Variables
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 let cleanedData = [];
+let expelledData = [];
 
 const settings = {
   filter: "all",
@@ -21,6 +22,7 @@ const Student = {
   imageFile: "",
   house: "",
   prefect: false,
+  inquisitorial: false,
   expelled: false,
   bloodStatus: "",
 };
@@ -107,33 +109,59 @@ function setFilter(filter) {
 function filterList(filteredList) {
   if (settings.filter === "hufflepuff") {
     console.log(settings.filter);
+    filteredList = filteredList.filter(isHufflepuff);
   } else if (settings.filter === "gryffindor") {
     console.log(settings.filter);
+    filteredList = filteredList.filter(isGryffindor);
   } else if (settings.filter === "slytherin") {
     console.log(settings.filter);
+    filteredList = filteredList.filter(isSlytherin);
   } else if (settings.filter === "ravenclaw") {
     console.log(settings.filter);
-  } else if (settings.filter === "expelled") {
-    console.log(settings.filter);
+    filteredList = filteredList.filter(isRavenclaw);
   } else if (settings.filter === "prefects") {
     console.log(settings.filter);
+    filteredList = filteredList.filter(isPrefect);
   } else if (settings.filter === "inquisitorial") {
     console.log(settings.filter);
+    filteredList = filteredList.filter(isInquisitorial);
+  } else if (settings.filter === "expelled") {
+    console.log(settings.filter);
+    filteredList = expelledData;
   }
   return filteredList;
 }
 //filter function
+function isHufflepuff(student) {
+  return student.house === "Hufflepuff";
+}
+function isGryffindor(student) {
+  return student.house === "Gryffindor";
+}
+function isSlytherin(student) {
+  return student.house === "Slytherin";
+}
+function isRavenclaw(student) {
+  return student.house === "Ravenclaw";
+}
+function isPrefect(student) {
+  return student.prefect === true;
+}
+function isInquisitorial(student) {
+  return student.inquisitorial === true;
+}
+
 //Sorting
 function selectSorting(event) {
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
 
   //toggle direction
-  if (sortDir === "asc") {
+  /*   if (sortDir === "asc") {
     event.target.dataset.sortDirection = "desc";
   } else {
     event.target.dataset.sortDirection = "asc";
-  }
+  } */
   console.log(sortBy, sortDir);
   setSort(sortBy, sortDir);
 }
