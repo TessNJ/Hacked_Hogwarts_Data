@@ -130,6 +130,16 @@ footer {
   height: 2em;
 }
 
+[data-field="houdeCrest"] {
+  max-width: 35%;
+}
+.popImages {
+  display: flex;
+  flex-direction: row;
+  width: 25vw;
+  justify-content: space-evenly;
+}
+
 .dialog h1 {
   margin-top: 0;
 }

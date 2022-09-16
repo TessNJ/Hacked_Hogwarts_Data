@@ -224,10 +224,35 @@ function displayStudent(student) {
     myCopy.querySelector("[data-field=nickName]").textContent =
       student.nickName;
   }
-  /* myCopy.querySelector(".imgStudent").src = student.imageFile;
-  myCopy.querySelector(".imgStudent").alt = `Image of ${student.lastName}`; */
-  //Paste Change
 
+  //Pop-up Content
+  myCopy.querySelector(".studentDiv").addEventListener("click", popOpen);
+  function popOpen() {
+    console.log(this.querySelector("[data-field=firstName]").textContent);
+    document.querySelector("[data-field=studentPortait]").src =
+      student.imageFile;
+    // document.querySelector("[data-field=houdeCrest").src = `images/${
+    //   document.querySelector("[data-field=popHouse]").textContent
+    // }Crest.png`;
+    document.querySelector("[data-field=houdeCrest").src =
+      "images/" + student.house + "Crest.png";
+    document.querySelector("[data-field=popFirstName]").textContent =
+      this.querySelector("[data-field=firstName]").textContent;
+    document.querySelector("[data-field=popMiddleName]").textContent =
+      this.querySelector("[data-field=middleName]").textContent;
+    document.querySelector("[data-field=popNickname]").textContent = `${
+      this.querySelector("[data-field=nickName]").textContent
+    }`;
+    document.querySelector("[data-field=popLastName]").textContent = `${
+      this.querySelector("[data-field=lastName]").textContent
+    }, `;
+    document.querySelector("[data-field=popHouse]").textContent =
+      this.querySelector("[data-field=house]").textContent;
+    document.querySelector("#pop-up").classList.remove("hidden");
+    document.querySelector(".closeButton").addEventListener("click", () => {
+      document.querySelector("#pop-up").classList.add("hidden");
+    });
+  }
   //Prefect
 
   //Inquisitorial
@@ -238,9 +263,23 @@ function displayStudent(student) {
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
+//Show details
+/* function popOpen() {
+  console.log(this.querySelector("[data-field=firstName]").textContent);
+  document.querySelector("[data-field=popFirstName]").textContent = `${
+    this.querySelector("[data-field=firstName]").textContent
+  }, `;
+  document.querySelector("[data-field=popMiddleName]").textContent =
+    this.querySelector("[data-field=middleName]").textContent;
+  document.querySelector("[data-field=popNickname]").textContent = `"${
+    this.querySelector("[data-field=nickName]").textContent
+  }"`;
+  document.querySelector("[data-field=popLastName]").textContent =
+    this.querySelector("[data-field=lastName]").textContent;
+  document.querySelector("#pop-up").classList.remove("hidden");
+} */
 
 //Cleaning data
-
 function firstNameClean(firstNames) {
   firstNames = firstNames.charAt(0).toUpperCase() + firstNames.slice(1);
   let firstName = firstNames;

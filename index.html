@@ -49,12 +49,11 @@
       <div id="pop-up" class="modal hidden">
         <div class="dialog">
           <button class="closeButton">X</button>
-          <div><img data-field="studentPortait" src="#" alt="Image of Student" /> <figure><img data-field="houdeCrest" src="#" alt="Image of House Crest" />
-          <figcaption>Crest of <span data-field="houseName">House</span></figcaption></figure></div>
+          <div class="popImages"><img data-field="studentPortait" src="#" alt="Image of Student" /><img data-field="houdeCrest"src="#" alt="Image of House Crest" /></div>
           <div>
-            <h3>Last Name</h3>
-            <h4><span>Name,</span> <span>Middle Name,</span> <span>"Nick Name"</span></h4>
-            <p>House</p>
+            <h3><span data-field="popLastName">Last Name</span> <span data-field="popFirstName">Name,</span></h3>
+            <h4> <span data-field="popMiddleName">Middle Name,</span> <span data-field="popNickname">"Nick Name"</span></h4>
+            <p data-field="popHouse">House</p>
             <div>
               <ul>
                 <li id="prefectStatus">Prefects: <span data-field="prefect">❌👑</span></li>
