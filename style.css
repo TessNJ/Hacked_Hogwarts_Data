@@ -119,7 +119,7 @@ footer {
   box-shadow: 1px 1px 10px #333;
   border-radius: 12px;
   padding: 2em;
-  background-color: rgb(255, 212, 187);
+  background-color: rgb(255, 255, 255);
   position: relative;
 }
 
@@ -130,6 +130,9 @@ footer {
   border-radius: 50%;
   width: 2em;
   height: 2em;
+  background-color: black;
+  color: white;
+  border: 1px white solid;
 }
 
 [data-field="houdeCrest"] {

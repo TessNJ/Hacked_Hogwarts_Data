@@ -248,6 +248,20 @@ function displayStudent(student) {
     });
   }
   //Prefect
+  document.querySelector("[data-field=prefect]").dataset.prefect =
+    student.prefect;
+
+  document
+    .querySelector("[data-field=prefect]")
+    .addEventListener("click", clickPrefect);
+  function clickPrefect() {
+    if (student.prefect === true) {
+      student.prefect = false;
+    } else {
+      tryToMakeAPrefect(student);
+    }
+    buildList();
+  }
 
   //Inquisitorial
 
@@ -257,21 +271,19 @@ function displayStudent(student) {
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
-//Show details
-/* function popOpen() {
-  console.log(this.querySelector("[data-field=firstName]").textContent);
-  document.querySelector("[data-field=popFirstName]").textContent = `${
-    this.querySelector("[data-field=firstName]").textContent
-  }, `;
-  document.querySelector("[data-field=popMiddleName]").textContent =
-    this.querySelector("[data-field=middleName]").textContent;
-  document.querySelector("[data-field=popNickname]").textContent = `"${
-    this.querySelector("[data-field=nickName]").textContent
-  }"`;
-  document.querySelector("[data-field=popLastName]").textContent =
-    this.querySelector("[data-field=lastName]").textContent;
-  document.querySelector("#pop-up").classList.remove("hidden");
-} */
+
+//Prefect
+function tryToMakeAPrefect(selectedStudent) {
+  const prefects = cleanedData.filter((student) => student.prefect);
+  const numberOfPrefects = prefects.length;
+  console.log(prefects);
+
+  MakePrefect(selectedStudent);
+
+  function MakePrefect(student) {
+    student.prefect = true;
+  }
+}
 
 //Cleaning data
 function firstNameClean(firstNames) {
