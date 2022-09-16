@@ -9,7 +9,7 @@ let expelledData = [];
 
 const settings = {
   filter: "all",
-  sortBy: "name",
+  sortBy: "firstName",
   sortDir: "asc",
 };
 
@@ -38,9 +38,7 @@ function registerButtons() {
   document
     .querySelectorAll("[data-action='filter']")
     .forEach((button) => button.addEventListener("click", selectFilter));
-  document
-    .querySelector("[data-action='sort']")
-    .addEventListener("change", selectSorting);
+  document.querySelector("#sorting").addEventListener("click", selectSorting);
 }
 
 async function loadJSON() {
@@ -51,7 +49,6 @@ async function loadJSON() {
 
 function prepareObjects(jsonData) {
   cleanedData = jsonData.map(prepareObject);
-
   buildList();
 }
 
@@ -155,15 +152,12 @@ function isInquisitorial(student) {
 function selectSorting(event) {
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
-
-  //toggle direction
-  /*   if (sortDir === "asc") {
-    event.target.dataset.sortDirection = "desc";
-  } else {
-    event.target.dataset.sortDirection = "asc";
-  } */
-  console.log(sortBy, sortDir);
-  setSort(sortBy, sortDir);
+  console.log(event);
+  console.log("sortBy:", sortBy);
+  console.log("sortDir:", sortDir);
+  if (sortBy != undefined) {
+    setSort(sortBy, sortDir);
+  }
 }
 
 function setSort(sortBy, sortDir) {
@@ -194,9 +188,9 @@ function sortList(sortedList) {
 //Build List
 function buildList() {
   const currentList = filterList(cleanedData);
-  // const sortedList = sortList(currentList);
-  displayList(currentList);
-  // displayList(sortedList);
+  const sortedList = sortList(currentList);
+  // displayList(currentList);
+  displayList(sortedList);
 }
 
 /////////////////////////////////////////////////////////

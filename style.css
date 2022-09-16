@@ -23,6 +23,8 @@
 body {
   background-color: var(--main-bg-colour);
   color: var(--main-font-colour);
+  height: 100%;
+  width: 100%;
 }
 header {
   text-align: center;
@@ -131,12 +133,12 @@ footer {
 }
 
 [data-field="houdeCrest"] {
-  max-width: 35%;
+  max-width: 30%;
 }
 .popImages {
   display: flex;
   flex-direction: row;
-  width: 25vw;
+  width: 18vw;
   justify-content: space-evenly;
 }
 
