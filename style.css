@@ -156,6 +156,17 @@ footer {
 li {
   list-style: none;
 }
+
+[data-field="prefect"][data-prefect="false"]::after {
+  filter: grayscale(1);
+}
+[data-field="prefect"]::after {
+  content: "👑";
+}
+.searchPlace {
+  display: flex;
+  justify-content: flex-end;
+}
 /* Media Queries */
 
 @supports (display: grid) {

@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", start);
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 let cleanedData = [];
 let expelledData = [];
+let searchData = [];
 
 const settings = {
   filter: "all",
@@ -248,20 +249,21 @@ function displayStudent(student) {
     });
   }
   //Prefect
-  document.querySelector("[data-field=prefect]").dataset.prefect =
-    student.prefect;
+  // myCopy.querySelector("[data-field=prefect]").dataset.prefect =
+  //   student.prefect;
 
-  document
-    .querySelector("[data-field=prefect]")
-    .addEventListener("click", clickPrefect);
-  function clickPrefect() {
-    if (student.prefect === true) {
-      student.prefect = false;
-    } else {
-      tryToMakeAPrefect(student);
-    }
-    buildList();
-  }
+  // myCopy
+  //   .querySelector("#pop-up [data-field=prefect]")
+  //   .addEventListener("click", clickPrefect);
+  // function clickPrefect() {
+  //   // if (student.prefect === true) {
+  //   //   student.prefect = false;
+  //   // } else {
+  //   //   tryToMakeAPrefect(student);
+  //   // }
+  //   // buildList();
+  //   console.log(this);
+  // }
 
   //Inquisitorial
 
@@ -271,6 +273,21 @@ function displayStudent(student) {
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
+//Search
+//Search
+document.querySelector("#search").addEventListener("input", searchValue);
+function searchValue(event) {
+  console.log(this.value);
+  let searchValues = this.value;
+  console.log(searchValues);
+  let result = cleanedData.filter(searching);
+  function searching(student) {
+    return student.firstName === searchValues;
+  }
+  console.log(result);
+}
+
+//popup
 
 //Prefect
 function tryToMakeAPrefect(selectedStudent) {
@@ -278,9 +295,67 @@ function tryToMakeAPrefect(selectedStudent) {
   const numberOfPrefects = prefects.length;
   console.log(prefects);
 
-  MakePrefect(selectedStudent);
+  if (numberOfPrefects >= 2) {
+    removeAorB(prefects[0], prefects[1]);
+  } else {
+    makePrefect(selectedStudent);
+  }
 
-  function MakePrefect(student) {
+  function removeAorB(prefectA, prefectB) {
+    //ask user to ignore or remove, a or b
+    document.querySelector("#prefectWarning").classList.remove("hidden");
+    document
+      .querySelector("#prefectWarning .closeButton")
+      .addEventListener("click", closeDialog);
+    document
+      .querySelector("#prefectWarning #removea")
+      .addEventListener("click", clickRemoveA);
+    document
+      .querySelector("#prefectWarning #removeb")
+      .addEventListener("click", clickRemoveB);
+
+    //shownames
+    document.querySelector(
+      "#prefectWarning [data-field=prefectA]"
+    ).textContent = prefectA.name;
+    document.querySelector(
+      "#prefectWarning [data-field=prefectB]"
+    ).textContent = prefectB.name;
+
+    //if use ignore - do nothing
+    function closeDialog() {
+      document.querySelector("#prefectWarning").classList.add("hidden");
+      document
+        .querySelector("#prefectWarning .closeButton")
+        .removeEventListener("click", closeDialog);
+      document
+        .querySelector("#prefectWarning #removea")
+        .removeEventListener("click", clickRemoveA);
+      document
+        .querySelector("#prefectWarning #removeb")
+        .removeEventListener("click", clickRemoveB);
+    }
+    //if user remove a:
+    function clickRemoveA() {
+      removePrefect(prefectA);
+      makePrefect(selectedStudent);
+      buildList();
+      closeDialog();
+    }
+
+    //if user remove b:
+    function clickRemoveB() {
+      removePrefect(prefectB);
+      makePrefect(selectedStudent);
+      buildList();
+      closeDialog();
+    }
+  }
+  function removePrefect(prefectStudent) {
+    prefectStudent.prefect = false;
+  }
+
+  function makePrefect(student) {
     student.prefect = true;
   }
 }
