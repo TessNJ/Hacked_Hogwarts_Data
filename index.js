@@ -275,16 +275,27 @@ function displayStudent(student) {
 }
 //Search
 //Search
-document.querySelector("#search").addEventListener("input", searchValue);
+// document.querySelector("#search").addEventListener("input", searchValue);
 function searchValue(event) {
-  console.log(this.value);
-  let searchValues = this.value;
-  console.log(searchValues);
-  let result = cleanedData.filter(searching);
-  function searching(student) {
-    return student.firstName === searchValues;
+  let input = document.querySelector("#search");
+  let searchValues = input.value.toUpperCase();
+  let list = document.querySelector("#pasteTemplate");
+  let item = list.getElementsByClassName("studentDiv");
+  let i = 0;
+  for (i = 0; i < item.length; i++) {
+    let h3 = item[i].getElementsByTagName("h2")[0];
+    let textValue = h3.textContent || h3.innerText;
+    if (textValue.toUpperCase().indexOf(item) > -1) {
+      item[i].style.display = "";
+    } else {
+      item[i].style.display = "none";
+    }
   }
-  console.log(result);
+  // let result = cleanedData.filter(searching);
+  // function searching(student) {
+  //   return student.firstName === searchValues;
+  // }
+  // console.log(result);
 }
 
 //popup

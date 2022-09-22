@@ -15,7 +15,7 @@
         <span class="material-symbols-outlined">
           search
           </span>
-        <input type="search" name="search" id="search">
+        <input type="text" name="search" id="search" onkeyup="searchValue()" placeholder="Search for student">
       </section>
       <section class="listManipluation">
         <h1>Student List</h1>
@@ -50,9 +50,9 @@
           </div>
         </div>
       </section>
-      <section id="pasteTemplate" class="gridView">
+      <ul id="pasteTemplate" class="gridView">
         <!-- template will be copied here -->
-      </section>
+      </ul>
       <div id="pop-up" class="modal hidden">
         <div class="dialog">
           <button class="closeButton">X</button>
@@ -81,19 +81,14 @@
     </footer>
     <!-- Template -->
     <template id="newTemplate">
-      <div class="studentDiv">
+      <li class="studentDiv">
         <!-- <img src="#" alt="Image of Student" class="imgStudent" /> -->
-        <div>
-          <div class="studentInfo">
-            <h2 data-field="lastName"></h2>
-            <h3 data-field="firstName"></h3>
-            <h3 data-field="middleName"></h3>
-            <p data-field="nickName"></p>
-            <h4 data-field="house"></h2>
-          </div>
-          <p data-field="prefect" data-prefect="false"></p>
-        </div>
-      </div>
+          <h2 data-field="lastName"></h2>
+          <h3 data-field="firstName"></h3>
+          <h3 data-field="middleName"></h3>
+          <p data-field="nickName"></p>
+          <h4 data-field="house"></h2>
+          </li>
       <div id="prefectWarning" class="modal hidden">
         <div class="dialog">
           <button class="closeButton">X</button>
