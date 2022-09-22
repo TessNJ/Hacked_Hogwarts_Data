@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
     <title>Cleaning Hogwarts Data</title>
@@ -15,7 +16,7 @@
         <span class="material-symbols-outlined">
           search
           </span>
-        <input type="text" name="search" id="search" onkeyup="searchValue()" placeholder="Search for student">
+        <input type="text" name="search" id="search" placeholder="Search for student">
       </section>
       <section class="listManipluation">
         <h1>Student List</h1>
@@ -64,7 +65,6 @@
             <div>
               <ul>
                 <li id="prefectStatus">Prefects: </li>
-                <li data-field="prefect" data-prefect="false"></li>
                 <li id="inquisitorialStatus">Inquisitorial Squad: </li>
                 <li data-field="inqusitorial">❌🎖️</li>
                 <li id="expelledStatus">Expelled: </li>
@@ -83,31 +83,37 @@
     <template id="newTemplate">
       <li class="studentDiv">
         <!-- <img src="#" alt="Image of Student" class="imgStudent" /> -->
+        <div class="studentInfo">
           <h2 data-field="lastName"></h2>
           <h3 data-field="firstName"></h3>
           <h3 data-field="middleName"></h3>
           <p data-field="nickName"></p>
           <h4 data-field="house"></h2>
-          </li>
-      <div id="prefectWarning" class="modal hidden">
-        <div class="dialog">
-          <button class="closeButton">X</button>
-          <h1>Warning!</h1>
-          <p>
-            There can not be anymore than two prefects per House.<br />
-            Do you want to remove one of the existing prefects?
-          </p>
-          <div class="sidebyside">
-            <button id="removea">
-              remove <span data-field="prefectA">A</span>
-            </button>
-            <button id="removeb">
-              remove <span data-field="prefectB">B</span>
-            </button>
           </div>
+          <div>
+            <p data-field="prefect" data-prefect="false">
+            </p>
+          </div>
+      </li>
+    </template>
+    <div id="prefectWarning" class="modal hidden">
+      <div class="dialog">
+        <button class="closeButton">X</button>
+        <h1>Warning!</h1>
+        <p>
+          There can not be anymore than two prefects per House.<br />
+          Do you want to remove one of the existing prefects?
+        </p>
+        <div class="sidebyside">
+          <button id="removea">
+            remove <span data-field="prefectA">A</span>
+          </button>
+          <button id="removeb">
+            remove <span data-field="prefectB">B</span>
+          </button>
         </div>
       </div>
-    </template>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>

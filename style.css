@@ -34,13 +34,14 @@ header {
 }
 
 .studentDiv {
-  border: 1px solid red;
+  /* border: 1px solid red; */
   max-width: 100%;
-  padding: 6% 0;
+  padding: 2% 4%;
   border-radius: 1vw;
-  background-color: rgb(252, 241, 222);
+  background-color: rgb(255, 245, 227);
   display: flex;
   flex-direction: column;
+  height: 15vh;
 }
 
 .studentDiv div {

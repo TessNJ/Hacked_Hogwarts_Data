@@ -6,12 +6,25 @@ document.addEventListener("DOMContentLoaded", start);
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
 let cleanedData = [];
 let expelledData = [];
+let currentData = [];
 let searchData = [];
 
+//bloodstatus
+// let blood = "https://petlatkea.dk/2021/hogwarts/families.json";
+// - load both json files
+// - for each student
+//    - algerythem (either 2x"ifs", or an "if else if")
+//       - set bloodstatus muggle-born
+//       - check if halfblood - if yes assign
+//       - check if pureblood - if yes assign
+//           (decide condition if appearing on both)
+
+//settings
 const settings = {
   filter: "all",
   sortBy: "firstName",
   sortDir: "asc",
+  search: "",
 };
 
 //Prototype
@@ -190,8 +203,9 @@ function sortList(sortedList) {
 function buildList() {
   const currentList = filterList(cleanedData);
   const sortedList = sortList(currentList);
+  const searchedList = searchList(sortedList);
   // displayList(currentList);
-  displayList(sortedList);
+  displayList(searchedList);
 }
 
 /////////////////////////////////////////////////////////
@@ -221,49 +235,27 @@ function displayStudent(student) {
   }
 
   //Pop-up Content
-  myCopy.querySelector(".studentDiv").addEventListener("click", popOpen);
-  function popOpen() {
-    console.log(this.querySelector("[data-field=firstName]").textContent);
-    document.querySelector("[data-field=studentPortait]").src =
-      student.imageFile;
-    // document.querySelector("[data-field=houdeCrest").src = `images/${
-    //   document.querySelector("[data-field=popHouse]").textContent
-    // }Crest.png`;
-    document.querySelector("[data-field=houdeCrest").src =
-      "images/" + student.house + "Crest.png";
-    document.querySelector("[data-field=popFirstName]").textContent =
-      this.querySelector("[data-field=firstName]").textContent;
-    document.querySelector("[data-field=popMiddleName]").textContent =
-      this.querySelector("[data-field=middleName]").textContent;
-    document.querySelector("[data-field=popNickname]").textContent = `${
-      this.querySelector("[data-field=nickName]").textContent
-    }`;
-    document.querySelector("[data-field=popLastName]").textContent = `${
-      this.querySelector("[data-field=lastName]").textContent
-    }, `;
-    document.querySelector("[data-field=popHouse]").textContent =
-      this.querySelector("[data-field=house]").textContent;
-    document.querySelector("#pop-up").classList.remove("hidden");
-    document.querySelector(".closeButton").addEventListener("click", () => {
-      document.querySelector("#pop-up").classList.add("hidden");
+  myCopy
+    .querySelector(".studentDiv .studentInfo")
+    .addEventListener("click", () => {
+      popOpen(student);
     });
-  }
   //Prefect
-  // myCopy.querySelector("[data-field=prefect]").dataset.prefect =
-  //   student.prefect;
+  myCopy.querySelector("[data-field=prefect]").dataset.prefect =
+    student.prefect;
 
-  // myCopy
-  //   .querySelector("#pop-up [data-field=prefect]")
-  //   .addEventListener("click", clickPrefect);
-  // function clickPrefect() {
-  //   // if (student.prefect === true) {
-  //   //   student.prefect = false;
-  //   // } else {
-  //   //   tryToMakeAPrefect(student);
-  //   // }
-  //   // buildList();
-  //   console.log(this);
-  // }
+  myCopy
+    .querySelector("[data-field=prefect]")
+    .addEventListener("click", clickPrefect);
+  function clickPrefect() {
+    // if (student.prefect === true) {
+    //   student.prefect = false;
+    // } else {
+    //   tryToMakeAPrefect(student);
+    // }
+    // buildList();
+    console.log(student.firstName);
+  }
 
   //Inquisitorial
 
@@ -273,32 +265,52 @@ function displayStudent(student) {
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
-//Search
-//Search
-// document.querySelector("#search").addEventListener("input", searchValue);
-function searchValue(event) {
-  let input = document.querySelector("#search");
-  let searchValues = input.value.toUpperCase();
-  let list = document.querySelector("#pasteTemplate");
-  let item = list.getElementsByClassName("studentDiv");
-  let i = 0;
-  for (i = 0; i < item.length; i++) {
-    let h3 = item[i].getElementsByTagName("h2")[0];
-    let textValue = h3.textContent || h3.innerText;
-    if (textValue.toUpperCase().indexOf(item) > -1) {
-      item[i].style.display = "";
-    } else {
-      item[i].style.display = "none";
-    }
-  }
-  // let result = cleanedData.filter(searching);
-  // function searching(student) {
-  //   return student.firstName === searchValues;
-  // }
-  // console.log(result);
+//popOP
+function popOpen(student) {
+  console.log(student);
+  document.querySelector("[data-field=studentPortait]").src = student.imageFile;
+  // document.querySelector("[data-field=houdeCrest").src = `images/${
+  //   document.querySelector("[data-field=popHouse]").textContent
+  // }Crest.png`;
+  document.querySelector("[data-field=houdeCrest").src =
+    "images/" + student.house + "Crest.png";
+  document.querySelector("[data-field=popFirstName]").textContent =
+    student.firstName;
+  document.querySelector("[data-field=popMiddleName]").textContent =
+    student.middleName;
+  document.querySelector(
+    "[data-field=popNickname]"
+  ).textContent = `${student.nickName}`;
+  document.querySelector(
+    "[data-field=popLastName]"
+  ).textContent = `${student.lastName}, `;
+  document.querySelector("[data-field=popHouse]").textContent = student.house;
+  document.querySelector("#pop-up").classList.remove("hidden");
+  document.querySelector(".closeButton").addEventListener("click", () => {
+    document.querySelector("#pop-up").classList.add("hidden");
+  });
 }
 
-//popup
+//Search
+document.querySelector("#search").addEventListener("keyup", selectSearch);
+function selectSearch(event) {
+  const value = event.target.value.toLowerCase();
+  setSearch(value);
+}
+function setSearch(search) {
+  settings.search = search;
+  buildList();
+}
+function searchList(searchedList) {
+  searchedList = searchedList.filter(isSearched);
+  return searchedList;
+}
+function isSearched(student) {
+  return (
+    student.firstName.toLowerCase().includes(settings.search) ||
+    student.lastName.toLowerCase().includes(settings.search)
+  );
+}
 
 //Prefect
 function tryToMakeAPrefect(selectedStudent) {
@@ -429,3 +441,8 @@ function houseFind(houseNames) {
   houseSort = houseSort.charAt(0).toUpperCase() + houseSort.slice(1);
   return houseSort;
 }
+// toggle expel
+// 3 arrays (all, expelled, current)
+// pop or filtering
+
+//bloodstatus - convert to array, check if in either, one or both family names
