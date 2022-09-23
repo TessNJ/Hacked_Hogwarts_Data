@@ -198,6 +198,26 @@ function sortList(sortedList) {
   }
   return sortedList;
 }
+//Search
+document.querySelector("#search").addEventListener("keyup", selectSearch);
+function selectSearch(event) {
+  const value = event.target.value.toLowerCase();
+  setSearch(value);
+}
+function setSearch(search) {
+  settings.search = search;
+  buildList();
+}
+function searchList(searchedList) {
+  searchedList = searchedList.filter(isSearched);
+  return searchedList;
+}
+function isSearched(student) {
+  return (
+    student.firstName.toLowerCase().includes(settings.search) ||
+    student.lastName.toLowerCase().includes(settings.search)
+  );
+}
 
 //Build List
 function buildList() {
@@ -248,12 +268,12 @@ function displayStudent(student) {
     .querySelector("[data-field=prefect]")
     .addEventListener("click", clickPrefect);
   function clickPrefect() {
-    // if (student.prefect === true) {
-    //   student.prefect = false;
-    // } else {
-    //   tryToMakeAPrefect(student);
-    // }
-    // buildList();
+    if (student.prefect === true) {
+      student.prefect = false;
+    } else {
+      tryToMakeAPrefect(student);
+    }
+    buildList();
     console.log(student.firstName);
   }
 
@@ -291,35 +311,42 @@ function popOpen(student) {
   });
 }
 
-//Search
-document.querySelector("#search").addEventListener("keyup", selectSearch);
-function selectSearch(event) {
-  const value = event.target.value.toLowerCase();
-  setSearch(value);
-}
-function setSearch(search) {
-  settings.search = search;
-  buildList();
-}
-function searchList(searchedList) {
-  searchedList = searchedList.filter(isSearched);
-  return searchedList;
-}
-function isSearched(student) {
-  return (
-    student.firstName.toLowerCase().includes(settings.search) ||
-    student.lastName.toLowerCase().includes(settings.search)
-  );
-}
-
 //Prefect
 function tryToMakeAPrefect(selectedStudent) {
   const prefects = cleanedData.filter((student) => student.prefect);
-  const numberOfPrefects = prefects.length;
-  console.log(prefects);
+  const gryffindorPrefects = prefects.filter(
+    (student) => student.house === "Gryffindor"
+  );
+  const hufflepuffPrefects = prefects.filter(
+    (student) => student.house === "Hufflepuff"
+  );
+  const slytheringPrefects = prefects.filter(
+    (student) => student.house === "Slytherin"
+  );
+  const ravenclawPrefects = prefects.filter(
+    (student) => student.house === "Ravenclaw"
+  );
 
-  if (numberOfPrefects >= 2) {
-    removeAorB(prefects[0], prefects[1]);
+  if (
+    selectedStudent.house === "Gryffindor" &&
+    gryffindorPrefects.length >= 2
+  ) {
+    removeAorB(gryffindorPrefects[0], gryffindorPrefects[1]);
+  } else if (
+    selectedStudent.house === "Hufflepuff" &&
+    hufflepuffPrefects.length >= 2
+  ) {
+    removeAorB(hufflepuffPrefects[0], hufflepuffPrefects[1]);
+  } else if (
+    selectedStudent.house === "Slytherin" &&
+    slytheringPrefects.length >= 2
+  ) {
+    removeAorB(slytheringPrefects[0], slytheringPrefects[1]);
+  } else if (
+    selectedStudent.house === "Ravenclaw" &&
+    ravenclawPrefects.length >= 2
+  ) {
+    removeAorB(ravenclawPrefects[0], ravenclawPrefects[1]);
   } else {
     makePrefect(selectedStudent);
   }
@@ -336,14 +363,15 @@ function tryToMakeAPrefect(selectedStudent) {
     document
       .querySelector("#prefectWarning #removeb")
       .addEventListener("click", clickRemoveB);
-
     //shownames
-    document.querySelector(
-      "#prefectWarning [data-field=prefectA]"
-    ).textContent = prefectA.name;
+    document.querySelector("[data-field=prefectA]").textContent =
+      prefectA.firstName;
     document.querySelector(
       "#prefectWarning [data-field=prefectB]"
-    ).textContent = prefectB.name;
+    ).textContent = prefectB.firstName;
+    document.querySelector(
+      "#prefectWarning [data-field=prefectHouse]"
+    ).textContent = selectedStudent.house;
 
     //if use ignore - do nothing
     function closeDialog() {
@@ -365,7 +393,6 @@ function tryToMakeAPrefect(selectedStudent) {
       buildList();
       closeDialog();
     }
-
     //if user remove b:
     function clickRemoveB() {
       removePrefect(prefectB);
