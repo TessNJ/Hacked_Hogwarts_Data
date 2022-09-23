@@ -312,9 +312,25 @@ function displayStudent(student) {
       tryToExpell(student);
     }
   }
-  //BloodStatus
 
   //Inquisitorial
+  myCopy.querySelector("[data-field=inquisitorial").dataset.inquisitorial =
+    student.inquisitorial;
+  myCopy
+    .querySelector("[data-field=inquisitorial")
+    .addEventListener("click", clickInquisitorial);
+  function clickInquisitorial() {
+    if (student.house === "Slytherin" || student.bloodStatus === "Pureblood") {
+      console.log("Try to make student inquisitorial:", student);
+    } else {
+      console.log(
+        "Illegal action: cannot make student inqusitorial due to:",
+        student.house,
+        "or",
+        student.bloodStatus
+      );
+    }
+  }
 
   // append clone
   const parent = document.querySelector("#pasteTemplate");

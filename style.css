@@ -169,9 +169,14 @@ li {
 [data-field="expelled"][data-expelled="false"]::after {
   filter: grayscale(1);
 }
-
 [data-field="expelled"]::after {
   content: "❗";
+}
+[data-field="inquisitorial"][data-inquisitorial="false"]::after {
+  filter: grayscale(1);
+}
+[data-field="inquisitorial"]::after {
+  content: "🎖️";
 }
 
 .searchPlace {
