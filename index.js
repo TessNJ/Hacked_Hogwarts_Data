@@ -287,6 +287,10 @@ function displayStudent(student) {
 }
 //popOP
 function popOpen(student) {
+  document.querySelector(".dialog").classList.add(student.house);
+  document
+    .querySelector("[data-field=studentPortait]")
+    .classList.add(student.house);
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
   document.querySelector("[data-field=houdeCrest").src =
     "images/" + student.house + "Crest.png";
@@ -305,6 +309,10 @@ function popOpen(student) {
   document.querySelector("[data-field=popHouse]").textContent = student.house;
   document.querySelector("#pop-up").classList.remove("hidden");
   document.querySelector(".closeButton").addEventListener("click", () => {
+    document.querySelector(".dialog").classList.remove(student.house);
+    document
+      .querySelector("[data-field=studentPortait]")
+      .classList.remove(student.house);
     document.querySelector("#pop-up").classList.add("hidden");
   });
 }

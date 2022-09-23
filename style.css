@@ -38,11 +38,11 @@ header {
   max-width: 100%;
   padding: 2% 4%;
   border-radius: 1vw;
-  background-color: rgb(255, 245, 227);
   display: flex;
   flex-direction: row;
   height: 15vh;
   justify-content: space-between;
+  background-color: rgb(255, 244, 219);
   align-items: center;
 }
 
@@ -122,8 +122,8 @@ footer {
   box-shadow: 1px 1px 10px #333;
   border-radius: 12px;
   padding: 2em;
-  background-color: rgb(255, 255, 255);
   position: relative;
+  background-color: antiquewhite;
 }
 
 .closeButton {
@@ -207,4 +207,22 @@ li {
 
 .hidden {
   display: none;
+}
+
+.Gryffindor {
+  border: 6px solid rgb(255, 96, 96);
+}
+
+.Hufflepuff {
+  border: 6px solid rgb(255, 255, 120);
+}
+.Slytherin {
+  border: 6px solid rgb(121, 255, 121);
+}
+.Ravenclaw {
+  border: 6px solid rgb(122, 122, 255);
+}
+
+[data-field="studentPortait"] {
+  border-radius: 2vw;
 }
