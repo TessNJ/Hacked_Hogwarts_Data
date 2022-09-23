@@ -3,21 +3,30 @@
 document.addEventListener("DOMContentLoaded", start);
 
 //Variables
-const url = "https://petlatkea.dk/2021/hogwarts/students.json";
+const studentURL = "https://petlatkea.dk/2021/hogwarts/students.json";
+const familyURL = "https://petlatkea.dk/2021/hogwarts/families.json";
 let allStudentData = [];
 let expelledData = [];
 let currentData = [];
 let searchData = [];
+let studentJSON;
+let familyJSON;
 
 //bloodstatus
 // let blood = "https://petlatkea.dk/2021/hogwarts/families.json";
-// - load both json files
-// - for each student
+// - load both json files ----
+// - for each student ----
 //    - algerythem (either 2x"ifs", or an "if else if")
 //       - set bloodstatus muggle-born
 //       - check if halfblood - if yes assign
 //       - check if pureblood - if yes assign
 //           (decide condition if appearing on both)
+
+// loading screen
+
+// inqusitorial
+// hacking
+// draw crest
 
 //settings
 
@@ -42,10 +51,13 @@ const Student = {
   inquisitorial: false,
 };
 
-function start() {
+async function start() {
   console.log("ready");
   registerButtons();
-  loadJSON();
+  await loadFamilyJSON();
+  await loadStudenJSON();
+
+  prepareObjects(studentJSON);
 }
 
 //Buttons
@@ -56,10 +68,15 @@ function registerButtons() {
   document.querySelector("#sorting").addEventListener("click", selectSorting);
 }
 
-async function loadJSON() {
-  const response = await fetch(url);
-  const jsonData = await response.json();
-  prepareObjects(jsonData);
+async function loadStudenJSON() {
+  const response = await fetch(studentURL);
+  const data = await response.json();
+  studentJSON = data;
+}
+async function loadFamilyJSON() {
+  const response = await fetch(familyURL);
+  const data = await response.json();
+  familyJSON = data;
 }
 
 function prepareObjects(jsonData) {
@@ -101,6 +118,11 @@ function prepareObject(jsonObject) {
   //Selecting and defining Image File Names
   let imageFileName = imageFileLocate(nameArray);
   studentTemp.imageFile = imageFileName;
+
+  //blood status
+  let bloodStatus = checkBloodStatus(studentTemp.lastName);
+  studentTemp.bloodStatus = bloodStatus;
+
   // console.log(studentTemp);
   allStudentData.push(studentTemp);
   currentData.push(studentTemp);
@@ -322,6 +344,8 @@ function popOpen(student) {
     "[data-field=popLastName]"
   ).textContent = `${student.lastName}, `;
   document.querySelector("[data-field=popHouse]").textContent = student.house;
+  document.querySelector("[data-field=bloodStatus]").textContent =
+    student.bloodStatus;
   document.querySelector("#pop-up").classList.remove("hidden");
   document.querySelector(".closeButton").addEventListener("click", () => {
     document.querySelector(".dialog").classList.remove(student.house);
@@ -523,8 +547,17 @@ function houseFind(houseNames) {
   houseSort = houseSort.charAt(0).toUpperCase() + houseSort.slice(1);
   return houseSort;
 }
-// toggle expel
-// 3 arrays (all, expelled, current)
-// pop or filtering
+
+function checkBloodStatus(lastName) {
+  let familyStatus = "Muggle-born";
+  if (lastName === "No Last Name") {
+    familyStatus = "Unknown";
+  } else if (familyJSON.half.includes(lastName)) {
+    familyStatus = "Halfblood";
+  } else if (familyJSON.pure.includes(lastName)) {
+    familyStatus = "Pureblood";
+  }
+  return familyStatus;
+}
 
 //bloodstatus - convert to array, check if in either, one or both family names
