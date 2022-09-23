@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", start);
 
 //Variables
 const url = "https://petlatkea.dk/2021/hogwarts/students.json";
-let cleanedData = [];
+let allStudentData = [];
 let expelledData = [];
 let currentData = [];
 let searchData = [];
@@ -20,6 +20,7 @@ let searchData = [];
 //           (decide condition if appearing on both)
 
 //settings
+
 const settings = {
   filter: "all",
   sortBy: "firstName",
@@ -36,9 +37,9 @@ const Student = {
   imageFile: "",
   house: "",
   prefect: false,
-  inquisitorial: false,
   expelled: false,
   bloodStatus: "",
+  inquisitorial: false,
 };
 
 function start() {
@@ -62,7 +63,7 @@ async function loadJSON() {
 }
 
 function prepareObjects(jsonData) {
-  cleanedData = jsonData.map(prepareObject);
+  allStudentData = jsonData.map(prepareObject);
   buildList();
 }
 
@@ -101,8 +102,8 @@ function prepareObject(jsonObject) {
   let imageFileName = imageFileLocate(nameArray);
   studentTemp.imageFile = imageFileName;
   // console.log(studentTemp);
-  cleanedData.push(studentTemp);
-
+  allStudentData.push(studentTemp);
+  currentData.push(studentTemp);
   return studentTemp;
 }
 
@@ -221,7 +222,7 @@ function isSearched(student) {
 
 //Build List
 function buildList() {
-  const currentList = filterList(cleanedData);
+  const currentList = filterList(currentData);
   const sortedList = sortList(currentList);
   const searchedList = searchList(sortedList);
   // displayList(currentList);
@@ -264,9 +265,11 @@ function displayStudent(student) {
   myCopy.querySelector("[data-field=prefect]").dataset.prefect =
     student.prefect;
 
-  myCopy
-    .querySelector("[data-field=prefect]")
-    .addEventListener("click", clickPrefect);
+  if (student.expelled === false) {
+    myCopy
+      .querySelector("[data-field=prefect]")
+      .addEventListener("click", clickPrefect);
+  }
   function clickPrefect() {
     if (student.prefect === true) {
       student.prefect = false;
@@ -274,12 +277,22 @@ function displayStudent(student) {
       tryToMakeAPrefect(student);
     }
     buildList();
-    console.log(student.firstName);
   }
 
-  //Inquisitorial
-
   //Expelled
+  myCopy.querySelector("[data-field=expelled]").dataset.expelled =
+    student.expelled;
+  myCopy
+    .querySelector("[data-field=expelled]")
+    .addEventListener("click", clickExpell);
+  function clickExpell() {
+    if (student.expelled === false) {
+      tryToExpell(student);
+    }
+  }
+  //BloodStatus
+
+  //Inquisitorial
 
   // append clone
   const parent = document.querySelector("#pasteTemplate");
@@ -300,6 +313,8 @@ function popOpen(student) {
     student.middleName;
   document.querySelector("#pop-up [data-field=prefect]").dataset.prefect =
     student.prefect;
+  document.querySelector("#pop-up [data-field=expelled]").dataset.expelled =
+    student.expelled;
   document.querySelector(
     "[data-field=popNickname]"
   ).textContent = `${student.nickName}`;
@@ -317,9 +332,43 @@ function popOpen(student) {
   });
 }
 
+//Expell
+function tryToExpell(selectedStudent) {
+  document.querySelector("#expelWarning").classList.remove("hidden");
+  document.querySelector(
+    "#expelWarning [data-field=expelledStudent]"
+  ).textContent = selectedStudent.firstName;
+  document
+    .querySelector("#expelWarning .closeButton")
+    .addEventListener("click", closeDialog);
+
+  document
+    .querySelector("#expelWarning #removeStudent")
+    .addEventListener("click", expelStudent);
+
+  function expelStudent() {
+    let index = currentData.indexOf(selectedStudent);
+    selectedStudent.expelled = true;
+    expelledData.push(selectedStudent);
+    currentData.splice(index, 1);
+    closeDialog();
+  }
+
+  function closeDialog() {
+    document
+      .querySelector("#expelWarning .closeButton")
+      .removeEventListener("click", closeDialog);
+    document
+      .querySelector("#expelWarning #removeStudent")
+      .removeEventListener("click", expelStudent);
+    document.querySelector("#expelWarning").classList.add("hidden");
+    buildList();
+  }
+}
+
 //Prefect
 function tryToMakeAPrefect(selectedStudent) {
-  const prefects = cleanedData.filter((student) => student.prefect);
+  const prefects = currentData.filter((student) => student.prefect);
   const gryffindorPrefects = prefects.filter(
     (student) => student.house === "Gryffindor"
   );

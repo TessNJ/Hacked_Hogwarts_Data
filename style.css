@@ -166,6 +166,14 @@ li {
 [data-field="prefect"]::after {
   content: "👑";
 }
+[data-field="expelled"][data-expelled="false"]::after {
+  filter: grayscale(1);
+}
+
+[data-field="expelled"]::after {
+  content: "❗";
+}
+
 .searchPlace {
   display: flex;
   justify-content: flex-end;

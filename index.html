@@ -70,7 +70,7 @@
                 <li id="inquisitorialStatus">Inquisitorial Squad: </li>
                 <li data-field="inqusitorial">❌🎖️</li>
                 <li id="expelledStatus">Expelled: </li>
-                <li data-field="expelled">❌❗</li>
+                <li data-field="expelled" data-expelled="false"></li>
               </ul>
             </div>
           </div>
@@ -95,6 +95,7 @@
           <div>
             <p data-field="prefect" data-prefect="false">
             </p>
+            <p data-field="expelled" data-expelled="false"></p>
           </div>
       </li>
     </template>
@@ -116,7 +117,21 @@
         </div>
       </div>
     </div>
-
+    <div id="expelWarning" class="modal hidden">
+      <div class="dialog">
+        <button class="closeButton">X</button>
+        <h1>Warning!</h1>
+        <p>
+          You are trying to expel a student. This is action can not be undone.<br />
+          Are you sure you want to expel <span data-field="expelName"></span>?
+        </p>
+        <div class="expelStudent">
+          <button id="removeStudent">
+            remove <span data-field="expelledStudent">A</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <script src="index.js"></script>
   </body>
 </html>
