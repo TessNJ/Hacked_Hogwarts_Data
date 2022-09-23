@@ -287,17 +287,15 @@ function displayStudent(student) {
 }
 //popOP
 function popOpen(student) {
-  console.log(student);
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
-  // document.querySelector("[data-field=houdeCrest").src = `images/${
-  //   document.querySelector("[data-field=popHouse]").textContent
-  // }Crest.png`;
   document.querySelector("[data-field=houdeCrest").src =
     "images/" + student.house + "Crest.png";
   document.querySelector("[data-field=popFirstName]").textContent =
     student.firstName;
   document.querySelector("[data-field=popMiddleName]").textContent =
     student.middleName;
+  document.querySelector("#pop-up [data-field=prefect]").dataset.prefect =
+    student.prefect;
   document.querySelector(
     "[data-field=popNickname]"
   ).textContent = `${student.nickName}`;
