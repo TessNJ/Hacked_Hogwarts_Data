@@ -1,3 +1,7 @@
+/* import */
+@import url("https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Castoro:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Dosis:wght@200;300;400&display=swap");
 /* Reset Styling */
 *,
 *::before,
@@ -12,6 +16,9 @@
   --secondary-colour: rgb(191, 115, 61);
   --main-font-colour: black;
   --secondary-font-colour: white;
+  --logo-font: "Bodoni Moda", serif;
+  --header-font: "Castoro", serif;
+  --body-font: "Dosis", sans-serif;
 }
 
 /* Data related  */
@@ -25,12 +32,20 @@ body {
   color: var(--main-font-colour);
   height: 100%;
   width: 100%;
+  /* font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; */
+  font-family: var(--body-font);
+}
+h1,
+h2,
+h5 {
+  font-family: var(--header-font);
 }
 header {
   text-align: center;
   padding: 2%;
   background-color: var(--secondary-colour);
   color: var(--main-font-colour);
+  font-family: var(--logo-font);
 }
 
 .studentDiv {
