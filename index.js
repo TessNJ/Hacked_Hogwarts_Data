@@ -344,7 +344,7 @@ function popOpen(student) {
     .classList.add(student.house);
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
   document.querySelector("[data-field=houdeCrest").src =
-    "images/" + student.house + "Crest.png";
+    "images/" + student.house + "Crest.svg";
   document.querySelector("[data-field=popFirstName]").textContent =
     student.firstName;
   document.querySelector("[data-field=popMiddleName]").textContent =
