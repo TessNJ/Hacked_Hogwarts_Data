@@ -57,8 +57,10 @@ function registerButtons() {
 }
 
 async function loadStudenJSON() {
+  document.querySelector("#loadScreen").classList.remove("hidden");
   const response = await fetch(studentURL);
   const data = await response.json();
+  document.querySelector("#loadScreen").classList.add("hidden");
   studentJSON = data;
 }
 async function loadFamilyJSON() {
@@ -303,9 +305,11 @@ function displayStudent(student) {
   //Inquisitorial
   myCopy.querySelector("[data-field=inquisitorial").dataset.inquisitorial =
     student.inquisitorial;
-  myCopy
-    .querySelector("[data-field=inquisitorial")
-    .addEventListener("click", clickInquisitorial);
+  if (student.expelled === false) {
+    myCopy
+      .querySelector("[data-field=inquisitorial")
+      .addEventListener("click", clickInquisitorial);
+  }
   function clickInquisitorial() {
     if (student.inquisitorial === true) {
       student.inquisitorial = false;
@@ -407,6 +411,8 @@ function tryToExpell(selectedStudent) {
   function expelStudent() {
     let index = currentData.indexOf(selectedStudent);
     selectedStudent.expelled = true;
+    selectedStudent.prefect = false;
+    selectedStudent.inquisitorial = false;
     expelledData.push(selectedStudent);
     currentData.splice(index, 1);
     closeDialog();
