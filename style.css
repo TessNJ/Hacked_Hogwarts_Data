@@ -255,3 +255,13 @@ li {
   color: wheat;
   text-shadow: 2px 2px rgb(151, 98, 0);
 }
+
+.temp {
+  max-width: 100%;
+  padding: 2% 4%;
+  border-radius: 1vw;
+  height: 15vh;
+  background-color: rgb(255, 244, 219);
+  text-align: center;
+  font-style: italic;
+}

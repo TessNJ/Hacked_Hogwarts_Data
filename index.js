@@ -57,7 +57,6 @@ function registerButtons() {
 }
 
 async function loadStudenJSON() {
-  document.querySelector("#loadScreen").classList.remove("hidden");
   const response = await fetch(studentURL);
   const data = await response.json();
   document.querySelector("#loadScreen").classList.add("hidden");
