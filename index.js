@@ -11,25 +11,12 @@ let currentData = [];
 let searchData = [];
 let studentJSON;
 let familyJSON;
-
-//bloodstatus
-// let blood = "https://petlatkea.dk/2021/hogwarts/families.json";
-// - load both json files ----
-// - for each student ----
-//    - algerythem (either 2x"ifs", or an "if else if")
-//       - set bloodstatus muggle-born
-//       - check if halfblood - if yes assign
-//       - check if pureblood - if yes assign
-//           (decide condition if appearing on both)
-
-// loading screen
-
-// inqusitorial
-// hacking
-// draw crest
+/////To do:
+// - loading screen
+// - hacking
+// - update design
 
 //settings
-
 const settings = {
   filter: "all",
   sortBy: "firstName",
@@ -66,6 +53,7 @@ function registerButtons() {
     .querySelectorAll("[data-action='filter']")
     .forEach((button) => button.addEventListener("click", selectFilter));
   document.querySelector("#sorting").addEventListener("click", selectSorting);
+  document.querySelector("#search").addEventListener("keyup", selectSearch);
 }
 
 async function loadStudenJSON() {
@@ -222,7 +210,6 @@ function sortList(sortedList) {
   return sortedList;
 }
 //Search
-document.querySelector("#search").addEventListener("keyup", selectSearch);
 function selectSearch(event) {
   const value = event.target.value.toLowerCase();
   setSearch(value);
@@ -320,23 +307,54 @@ function displayStudent(student) {
     .querySelector("[data-field=inquisitorial")
     .addEventListener("click", clickInquisitorial);
   function clickInquisitorial() {
-    if (student.house === "Slytherin" || student.bloodStatus === "Pureblood") {
-      console.log("Try to make student inquisitorial:", student);
+    if (student.inquisitorial === true) {
+      student.inquisitorial = false;
     } else {
-      console.log(
-        "Illegal action: cannot make student inqusitorial due to:",
-        student.house,
-        "or",
-        student.bloodStatus
-      );
+      tryToMakeInquisitorial(student);
     }
+    buildList();
   }
 
   // append clone
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
-//popOP
+
+// Inqusitorial
+function tryToMakeInquisitorial(student) {
+  if (student.house === "Slytherin" || student.bloodStatus === "Pureblood") {
+    console.log("Try to make student inquisitorial:", student);
+    makeInqusitor(student);
+  } else {
+    console.log(
+      "Illegal action: cannot make student inqusitorial due to:",
+      student.house,
+      "or",
+      student.bloodStatus
+    );
+    document.querySelector("#inqusitorWarning").classList.remove("hidden");
+    document.querySelector(
+      "#inqusitorWarning [data-field=inqusitorHouse]"
+    ).textContent = student.house;
+    document.querySelector(
+      "#inqusitorWarning [data-field=inqusitorFamily]"
+    ).textContent = student.bloodStatus;
+    document
+      .querySelector("#inqusitorWarning .closeButton")
+      .addEventListener("click", closeDialog);
+  }
+  function makeInqusitor() {
+    student.inquisitorial = true;
+  }
+  function closeDialog() {
+    document
+      .querySelector("#inqusitorWarning .closeButton")
+      .removeEventListener("click", closeDialog);
+    document.querySelector("#inqusitorWarning").classList.add("hidden");
+  }
+}
+
+//popOPen
 function popOpen(student) {
   document.querySelector(".dialog").classList.add(student.house);
   document
