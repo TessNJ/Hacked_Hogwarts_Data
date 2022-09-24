@@ -12,7 +12,6 @@ let searchData = [];
 let studentJSON;
 let familyJSON;
 /////To do:
-// - loading screen
 // - hacking
 // - update design
 
