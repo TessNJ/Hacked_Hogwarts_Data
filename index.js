@@ -624,36 +624,34 @@ function hackTheSystem(hacker) {
     currentData.push(injectMe);
   }
   //make expelling impossible
+  function injectHacker(
+    firstName,
+    nickName,
+    lastName,
+    house,
+    expelled,
+    prefect,
+    inquisitorial,
+    bloodStatus,
+    title
+  ) {
+    this.firstName = firstName;
+    this.nickName = nickName;
+    this.lastName = lastName;
+    this.house = house;
+    this.expelled = expelled;
+    this.prefect = prefect;
+    this.inquisitorial = inquisitorial;
+    this.bloodStatus = bloodStatus;
+    this.title = title;
+  }
+  function scrambleBloodStatus() {
+    //with each reDisplay bloodStatus gets assigned at random
+    let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
+  }
+  function removeInquisitorial() {
+    //inqusitorial is only temporary
+    //display when inqusitorial is removed
+  }
   buildList();
-}
-
-function injectHacker(
-  firstName,
-  nickName,
-  lastName,
-  house,
-  expelled,
-  prefect,
-  inquisitorial,
-  bloodStatus,
-  title
-) {
-  this.firstName = firstName;
-  this.nickName = nickName;
-  this.lastName = lastName;
-  this.house = house;
-  this.expelled = expelled;
-  this.prefect = prefect;
-  this.inquisitorial = inquisitorial;
-  this.bloodStatus = bloodStatus;
-  this.title = title;
-}
-
-function scrambleBloodStatus() {
-  //with each reDisplay bloodStatus gets assigned at random
-  let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
-}
-function removeInquisitorial() {
-  //inqusitorial is only temporary
-  //display when inqusitorial is removed
 }
