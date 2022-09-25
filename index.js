@@ -260,8 +260,9 @@ function displayStudent(student) {
       student.middleName;
   }
   if (student.nickName != undefined) {
-    myCopy.querySelector("[data-field=nickName]").textContent =
-      student.nickName;
+    myCopy.querySelector(
+      "[data-field=nickName]"
+    ).textContent = `"${student.nickName}"`;
   }
 
   //Pop-up Content
@@ -372,9 +373,11 @@ function popOpen(student) {
     student.prefect;
   document.querySelector("#pop-up [data-field=expelled]").dataset.expelled =
     student.expelled;
-  document.querySelector(
-    "[data-field=popNickname]"
-  ).textContent = `${student.nickName}`;
+  if (student.nickName != undefined) {
+    document.querySelector(
+      "[data-field=popNickname]"
+    ).textContent = `"${student.nickName}"`;
+  }
   document.querySelector(
     "[data-field=popLastName]"
   ).textContent = `${student.lastName}, `;
@@ -594,4 +597,63 @@ function checkBloodStatus(lastName) {
   return familyStatus;
 }
 
-//bloodstatus - convert to array, check if in either, one or both family names
+//Hacking
+function hackTheSystem(hacker) {
+  const injectMe = new injectHacker(
+    "Terese",
+    "Tess",
+    "Jensen",
+    "Hufflepuff",
+    false,
+    false,
+    false,
+    "Muggle-born",
+    "hacker"
+  );
+  console.log(injectMe);
+  if (allStudentData[allStudentData.length - 1].firstName != "Terese") {
+    document.querySelector("#inqusitorWarning").classList.remove("hidden");
+    document.querySelector("#inqusitorWarning p").textContent =
+      "This system has been hacked";
+    document
+      .querySelector("#inqusitorWarning .closeButton")
+      .addEventListener("click", () => {
+        document.querySelector("#inqusitorWarning").classList.add("hidden");
+      });
+    allStudentData.push(injectMe);
+    currentData.push(injectMe);
+  }
+  //make expelling impossible
+  buildList();
+}
+
+function injectHacker(
+  firstName,
+  nickName,
+  lastName,
+  house,
+  expelled,
+  prefect,
+  inquisitorial,
+  bloodStatus,
+  title
+) {
+  this.firstName = firstName;
+  this.nickName = nickName;
+  this.lastName = lastName;
+  this.house = house;
+  this.expelled = expelled;
+  this.prefect = prefect;
+  this.inquisitorial = inquisitorial;
+  this.bloodStatus = bloodStatus;
+  this.title = title;
+}
+
+function scrambleBloodStatus() {
+  //with each reDisplay bloodStatus gets assigned at random
+  let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
+}
+function removeInquisitorial() {
+  //inqusitorial is only temporary
+  //display when inqusitorial is removed
+}
