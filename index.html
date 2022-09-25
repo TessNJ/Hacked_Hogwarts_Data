@@ -13,19 +13,25 @@
     <title>Cleaning Hogwarts Data</title>
   </head>
   <body>
-    <header><h1>Hogwarts</h1></header>
+    <header>
+      <h1>Hogwarts</h1>
+      <h4>School of Witchcraft and Wizardry</h4>
+    </header>
     <main>
-      <section class="searchPlace">
-        <span class="material-symbols-outlined"> search </span>
-        <input
-          type="text"
-          name="search"
-          id="search"
-          placeholder="Search for student"
-        />
-      </section>
-      <section class="listManipluation">
+      <div class="titleDiv">
         <h1>Student List</h1>
+        <section class="searchPlace">
+          <span class="material-symbols-outlined"> search </span>
+          <input
+            type="text"
+            name="search"
+            id="search"
+            placeholder="Search for student"
+          />
+        </section>
+      </div>
+      <section class="listManipluation">
+        <!-- <h1>Student List</h1> -->
         <div class="listSections">
           <div class="listFiltering">
             <h5>Filtering</h5>
@@ -204,6 +210,7 @@
               alt="Image of Student"
             /><img data-field="houdeCrest" src="#" alt="Image of House Crest" />
           </div>
+          <div class="houseColours"></div>
           <div>
             <h3>
               <span data-field="popLastName">Last Name</span>

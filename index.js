@@ -358,10 +358,9 @@ function tryToMakeInquisitorial(student) {
 
 //popOPen
 function popOpen(student) {
-  document.querySelector(".dialog").classList.add(student.house);
-  document
-    .querySelector("[data-field=studentPortait]")
-    .classList.add(student.house);
+  document.querySelector(".houseColours").classList.add(student.house);
+  document;
+
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
   document.querySelector("[data-field=houdeCrest").src =
     "images/" + student.house + "Crest.svg";
@@ -384,10 +383,7 @@ function popOpen(student) {
     student.bloodStatus;
   document.querySelector("#pop-up").classList.remove("hidden");
   document.querySelector(".closeButton").addEventListener("click", () => {
-    document.querySelector(".dialog").classList.remove(student.house);
-    document
-      .querySelector("[data-field=studentPortait]")
-      .classList.remove(student.house);
+    document.querySelector(".houseColours").classList.remove(student.house);
     document.querySelector("#pop-up").classList.add("hidden");
   });
 }
