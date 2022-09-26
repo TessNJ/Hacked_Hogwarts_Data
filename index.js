@@ -39,7 +39,6 @@ const Student = {
 };
 
 async function start() {
-  ("ready");
   registerButtons();
   await loadFamilyJSON();
   await loadStudenJSON();
@@ -109,8 +108,6 @@ function prepareObject(jsonObject) {
   //blood status
   let bloodStatus = checkBloodStatus(studentTemp.lastName);
   studentTemp.bloodStatus = bloodStatus;
-
-  //  (studentTemp);
   allStudentData.push(studentTemp);
   currentData.push(studentTemp);
   return studentTemp;
@@ -129,25 +126,18 @@ function setFilter(filter) {
 
 function filterList(filteredList) {
   if (settings.filter === "hufflepuff") {
-    settings.filter;
     filteredList = filteredList.filter(isHufflepuff);
   } else if (settings.filter === "gryffindor") {
-    settings.filter;
     filteredList = filteredList.filter(isGryffindor);
   } else if (settings.filter === "slytherin") {
-    settings.filter;
     filteredList = filteredList.filter(isSlytherin);
   } else if (settings.filter === "ravenclaw") {
-    settings.filter;
     filteredList = filteredList.filter(isRavenclaw);
   } else if (settings.filter === "prefects") {
-    settings.filter;
     filteredList = filteredList.filter(isPrefect);
   } else if (settings.filter === "inquisitorial") {
-    settings.filter;
     filteredList = filteredList.filter(isInquisitorial);
   } else if (settings.filter === "expelled") {
-    settings.filter;
     filteredList = expelledData;
   }
   return filteredList;
@@ -176,9 +166,6 @@ function isInquisitorial(student) {
 function selectSorting(event) {
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
-  event;
-  "sortBy:", sortBy;
-  "sortDir:", sortDir;
   if (sortBy != undefined) {
     setSort(sortBy, sortDir);
   }
@@ -230,7 +217,6 @@ function buildList() {
   const currentList = filterList(currentData);
   const sortedList = sortList(currentList);
   const searchedList = searchList(sortedList);
-  // displayList(currentList);
   displayList(searchedList);
 }
 
@@ -371,8 +357,6 @@ function removedFromGroup(student, group) {
 //PopOpen
 function popOpen(student) {
   document.querySelector(".houseColours").classList.add(student.house);
-  document;
-
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
   document.querySelector("[data-field=houdeCrest").src = "images/" + student.house + "Crest.svg";
   document.querySelector("[data-field=popFirstName]").textContent = student.firstName;
@@ -547,20 +531,25 @@ function checkBloodStatus(lastName) {
 }
 
 //Hacking
-document.addEventListener("keyup", hackTheSystem);
-function hackTheSystem(hacker) {
+window.addEventListener("keydown", (event) => {
+  if (event.code === "Digit8" && event.key === "8") {
+    hackTheSystem();
+    console.log("yes");
+  }
+});
+function hackTheSystem() {
   isHacked = true;
   const injectMe = new injectHacker("Terese", "Tess", "Jensen", "Hufflepuff", false, false, false, "Muggle-born", "hacker");
 
   if (allStudentData[allStudentData.length - 1].firstName != "Terese") {
     allStudentData.push(injectMe);
     currentData.push(injectMe);
+    currentData.forEach(removePrivilege);
+    currentData.forEach(scrambleBloodStatus);
+    setFontHack();
+    removedFromGroup("All Students", "Inqusitorial");
+    buildList();
   }
-  currentData.forEach(removePrivilege);
-  currentData.forEach(scrambleBloodStatus);
-  setFontHack();
-  removedFromGroup("All Students", "Inqusitorial");
-  buildList();
 }
 function removeInquisitorial() {
   //inqusitorial is only temporary
@@ -583,6 +572,9 @@ function scrambleBloodStatus(student) {
     student.bloodStatus = "Pureblood";
   } else if (student.bloodStatus === "Halfblood") {
     student.originalBlood = "Halfblood";
+    student.bloodStatus = "Pureblood";
+  } else if (student.bloodStatus === "Unknown") {
+    student.originalBlood = "Unknown";
     student.bloodStatus = "Pureblood";
   } else {
     student.originalBlood = "Pureblood";
