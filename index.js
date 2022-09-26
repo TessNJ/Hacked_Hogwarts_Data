@@ -9,7 +9,6 @@ let allStudentData = [];
 let expelledData = [];
 let currentData = [];
 let searchData = [];
-const studentData = {};
 let studentJSON;
 let familyJSON;
 let isHacked = false;
@@ -239,6 +238,9 @@ function buildList() {
 //Show data
 function displayList(students) {
   document.querySelector("#pasteTemplate").innerHTML = "";
+  if (isHacked === true) {
+    currentData.forEach(reScramble);
+  }
   students.forEach(displayStudent);
 }
 
@@ -554,8 +556,8 @@ function hackTheSystem(hacker) {
     allStudentData.push(injectMe);
     currentData.push(injectMe);
   }
-  allStudentData.forEach(removePrivilege);
-  allStudentData.forEach(scrambleBloodStatus);
+  currentData.forEach(removePrivilege);
+  currentData.forEach(scrambleBloodStatus);
   setFontHack();
   removedFromGroup("All Students", "Inqusitorial");
   buildList();
@@ -576,9 +578,14 @@ function injectHacker(firstName, nickName, lastName, house, expelled, prefect, i
   this.title = title;
 }
 function scrambleBloodStatus(student) {
-  if (student.bloodStatus === "Muggle-born" || student.bloodStatus === "Halfblood") {
+  if (student.bloodStatus === "Muggle-born") {
+    student.originalBlood = "Muggle-born";
+    student.bloodStatus = "Pureblood";
+  } else if (student.bloodStatus === "Halfblood") {
+    student.originalBlood = "Halfblood";
     student.bloodStatus = "Pureblood";
   } else {
+    student.originalBlood = "Pureblood";
     function randomNumber(max) {
       return Math.floor(Math.random() * max);
     }
@@ -586,7 +593,6 @@ function scrambleBloodStatus(student) {
     let x = randomNumber(3);
     student.bloodStatus = bloodStatusArray[x];
   }
-  //with each reDisplay bloodStatus gets assigned at random
 }
 function setFontHack() {
   var link = document.createElement("link");
@@ -602,4 +608,15 @@ function setFontHack() {
 }
 function removePrivilege(student) {
   student.inquisitorial = false;
+}
+
+function reScramble(student) {
+  if (student.originalBlood === "Pureblood") {
+    function randomNumber(max) {
+      return Math.floor(Math.random() * max);
+    }
+    let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
+    let x = randomNumber(3);
+    student.bloodStatus = bloodStatusArray[x];
+  }
 }
