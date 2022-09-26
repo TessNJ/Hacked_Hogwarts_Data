@@ -35,7 +35,6 @@ body {
   color: var(--main-font-colour);
   height: 100%;
   width: 100%;
-  /* font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif; */
   font-family: var(--body-font);
 }
 
@@ -304,6 +303,9 @@ li {
   aspect-ratio: 1/1;
   border-radius: 100%;
 }
+main {
+  min-height: 80vh;
+}
 
 /* Media Queries */
 
@@ -336,6 +338,9 @@ li {
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       height: 100%;
+    }
+    main {
+      min-height: 70vh;
     }
   }
 }

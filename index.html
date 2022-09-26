@@ -90,7 +90,7 @@
               </button>
             </p>
           </div>
-          <div>
+          <div class="listSorting">
             <h5>Sorting</h5>
             <select name="sorting" id="sorting">
               <option
@@ -286,16 +286,26 @@
         </div>
       </div>
     </div>
+    <div id="removedAlert" class="modal hidden">
+      <div class="dialog">
+        <button class="closeButton">X</button>
+        <h1>Alert</h1>
+        <p class="expelText">
+          <span data-field="removedName"></span> was removed from the group
+          <span data-field="removedGroup"></span>
+        </p>
+      </div>
+    </div>
     <div id="expelWarning" class="modal hidden">
       <div class="dialog">
         <button class="closeButton">X</button>
         <h1>Warning!</h1>
-        <p>
+        <p class="expelText">
           You are trying to expel a student. This is action can not be
           undone.<br />
           Are you sure you want to expel <span data-field="expelName"></span>?
         </p>
-        <div class="expelStudent">
+        <div class="expelStudent" id="expelZone">
           <button id="removeStudent">
             remove <span data-field="expelledStudent">A</span>
           </button>
