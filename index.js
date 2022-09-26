@@ -9,8 +9,10 @@ let allStudentData = [];
 let expelledData = [];
 let currentData = [];
 let searchData = [];
+const studentData = {};
 let studentJSON;
 let familyJSON;
+let isHacked = false;
 /////To do:
 // - hacking
 // - update design
@@ -38,7 +40,7 @@ const Student = {
 };
 
 async function start() {
-  console.log("ready");
+  ("ready");
   registerButtons();
   await loadFamilyJSON();
   await loadStudenJSON();
@@ -48,9 +50,7 @@ async function start() {
 
 //Buttons
 function registerButtons() {
-  document
-    .querySelectorAll("[data-action='filter']")
-    .forEach((button) => button.addEventListener("click", selectFilter));
+  document.querySelectorAll("[data-action='filter']").forEach((button) => button.addEventListener("click", selectFilter));
   document.querySelector("#sorting").addEventListener("click", selectSorting);
   document.querySelector("#search").addEventListener("keyup", selectSearch);
 }
@@ -111,7 +111,7 @@ function prepareObject(jsonObject) {
   let bloodStatus = checkBloodStatus(studentTemp.lastName);
   studentTemp.bloodStatus = bloodStatus;
 
-  // console.log(studentTemp);
+  //  (studentTemp);
   allStudentData.push(studentTemp);
   currentData.push(studentTemp);
   return studentTemp;
@@ -130,25 +130,25 @@ function setFilter(filter) {
 
 function filterList(filteredList) {
   if (settings.filter === "hufflepuff") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isHufflepuff);
   } else if (settings.filter === "gryffindor") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isGryffindor);
   } else if (settings.filter === "slytherin") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isSlytherin);
   } else if (settings.filter === "ravenclaw") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isRavenclaw);
   } else if (settings.filter === "prefects") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isPrefect);
   } else if (settings.filter === "inquisitorial") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = filteredList.filter(isInquisitorial);
   } else if (settings.filter === "expelled") {
-    console.log(settings.filter);
+    settings.filter;
     filteredList = expelledData;
   }
   return filteredList;
@@ -177,9 +177,9 @@ function isInquisitorial(student) {
 function selectSorting(event) {
   const sortBy = event.target.dataset.sort;
   const sortDir = event.target.dataset.sortDirection;
-  console.log(event);
-  console.log("sortBy:", sortBy);
-  console.log("sortDir:", sortDir);
+  event;
+  "sortBy:", sortBy;
+  "sortDir:", sortDir;
   if (sortBy != undefined) {
     setSort(sortBy, sortDir);
   }
@@ -223,10 +223,7 @@ function searchList(searchedList) {
   return searchedList;
 }
 function isSearched(student) {
-  return (
-    student.firstName.toLowerCase().includes(settings.search) ||
-    student.lastName.toLowerCase().includes(settings.search)
-  );
+  return student.firstName.toLowerCase().includes(settings.search) || student.lastName.toLowerCase().includes(settings.search);
 }
 
 //Build List
@@ -251,38 +248,30 @@ function displayStudent(student) {
   const myCopy = myTemplate.cloneNode(true);
 
   //Easy Content
-  myCopy.querySelector("[data-field=firstName]").textContent =
-    student.firstName;
+  myCopy.querySelector("[data-field=firstName]").textContent = student.firstName;
   myCopy.querySelector("[data-field=lastName]").textContent = student.lastName;
   myCopy.querySelector("[data-field=house]").textContent = student.house;
   if (student.middleName != undefined) {
-    myCopy.querySelector("[data-field=middleName]").textContent =
-      student.middleName;
+    myCopy.querySelector("[data-field=middleName]").textContent = student.middleName;
   }
   if (student.nickName != undefined) {
-    myCopy.querySelector(
-      "[data-field=nickName]"
-    ).textContent = `"${student.nickName}"`;
+    myCopy.querySelector("[data-field=nickName]").textContent = `"${student.nickName}"`;
   }
 
   //Pop-up Content
-  myCopy
-    .querySelector(".studentDiv .studentInfo")
-    .addEventListener("click", () => {
-      popOpen(student);
-    });
+  myCopy.querySelector(".studentDiv .studentInfo").addEventListener("click", () => {
+    popOpen(student);
+  });
   //Prefect
-  myCopy.querySelector("[data-field=prefect]").dataset.prefect =
-    student.prefect;
+  myCopy.querySelector("[data-field=prefect]").dataset.prefect = student.prefect;
 
   if (student.expelled === false) {
-    myCopy
-      .querySelector("[data-field=prefect]")
-      .addEventListener("click", clickPrefect);
+    myCopy.querySelector("[data-field=prefect]").addEventListener("click", clickPrefect);
   }
   function clickPrefect() {
     if (student.prefect === true) {
       student.prefect = false;
+      removedFromGroup(student, "Prefects");
     } else {
       tryToMakeAPrefect(student);
     }
@@ -290,11 +279,12 @@ function displayStudent(student) {
   }
 
   //Expelled
-  myCopy.querySelector("[data-field=expelled]").dataset.expelled =
-    student.expelled;
-  myCopy
-    .querySelector("[data-field=expelled]")
-    .addEventListener("click", clickExpell);
+  myCopy.querySelector("[data-field=expelled]").dataset.expelled = student.expelled;
+  if (isHacked === false) {
+    myCopy.querySelector("[data-field=expelled]").addEventListener("click", clickExpell);
+  } else {
+    myCopy.querySelector("[data-field=expelled]").addEventListener("click", cantExpel);
+  }
   function clickExpell() {
     if (student.expelled === false) {
       tryToExpell(student);
@@ -302,16 +292,14 @@ function displayStudent(student) {
   }
 
   //Inquisitorial
-  myCopy.querySelector("[data-field=inquisitorial").dataset.inquisitorial =
-    student.inquisitorial;
+  myCopy.querySelector("[data-field=inquisitorial").dataset.inquisitorial = student.inquisitorial;
   if (student.expelled === false) {
-    myCopy
-      .querySelector("[data-field=inquisitorial")
-      .addEventListener("click", clickInquisitorial);
+    myCopy.querySelector("[data-field=inquisitorial").addEventListener("click", clickInquisitorial);
   }
   function clickInquisitorial() {
     if (student.inquisitorial === true) {
       student.inquisitorial = false;
+      removedFromGroup(student, "Inqusitorial");
     } else {
       tryToMakeInquisitorial(student);
     }
@@ -322,68 +310,79 @@ function displayStudent(student) {
   const parent = document.querySelector("#pasteTemplate");
   parent.appendChild(myCopy);
 }
+function cantExpel() {
+  document.querySelector("#expelWarning").classList.remove("hidden");
+  document.querySelector("#expelWarning #removeStudent").classList.add("hidden");
+  document.querySelector("#expelWarning .expelText").classList.add("hidden");
+  document.querySelector("#expelZone").innerHTML += "<p>This student cannot be expelled</p>";
+  document.querySelector("#expelWarning .closeButton").addEventListener("click", () => {
+    document.querySelector("#expelWarning").classList.add("hidden");
+    document.querySelector("#expelWarning #removeStudent").classList.remove("hidden");
+    document.querySelector("#expelWarning .expelText").classList.remove("hidden");
+    document.querySelector("#expelZone p").remove();
+  });
+}
 
 // Inqusitorial
 function tryToMakeInquisitorial(student) {
   if (student.house === "Slytherin" || student.bloodStatus === "Pureblood") {
-    console.log("Try to make student inquisitorial:", student);
     makeInqusitor(student);
+    if (isHacked === true) {
+      setTimeout(() => {
+        student.inquisitorial = false;
+        removedFromGroup(student, "Inqusitorial");
+        buildList();
+      }, 1000);
+    }
   } else {
-    console.log(
-      "Illegal action: cannot make student inqusitorial due to:",
-      student.house,
-      "or",
-      student.bloodStatus
-    );
     document.querySelector("#inqusitorWarning").classList.remove("hidden");
-    document.querySelector(
-      "#inqusitorWarning [data-field=inqusitorHouse]"
-    ).textContent = student.house;
-    document.querySelector(
-      "#inqusitorWarning [data-field=inqusitorFamily]"
-    ).textContent = student.bloodStatus;
-    document
-      .querySelector("#inqusitorWarning .closeButton")
-      .addEventListener("click", closeDialog);
+    document.querySelector("#inqusitorWarning [data-field=inqusitorHouse]").textContent = student.house;
+    document.querySelector("#inqusitorWarning [data-field=inqusitorFamily]").textContent = student.bloodStatus;
+    document.querySelector("#inqusitorWarning .closeButton").addEventListener("click", closeDialog);
   }
   function makeInqusitor() {
     student.inquisitorial = true;
   }
   function closeDialog() {
-    document
-      .querySelector("#inqusitorWarning .closeButton")
-      .removeEventListener("click", closeDialog);
+    document.querySelector("#inqusitorWarning .closeButton").removeEventListener("click", closeDialog);
     document.querySelector("#inqusitorWarning").classList.add("hidden");
   }
 }
+//Removed privliege
+function removedFromGroup(student, group) {
+  document.querySelector("#removedAlert").classList.remove("hidden");
+  if (student.firstName != undefined) {
+    document.querySelector("#removedAlert [data-field=removedName]").textContent = student.firstName;
+  } else {
+    document.querySelector("#removedAlert [data-field=removedName]").textContent = student;
+  }
+  document.querySelector("#removedAlert [data-field=removedGroup]").textContent = group;
 
-//popOPen
+  document.querySelector("#removedAlert .closeButton").addEventListener("click", closeDialog);
+
+  function closeDialog() {
+    document.querySelector("#removedAlert").classList.add("hidden");
+    document.querySelector("#removedAlert .closeButton").removeEventListener("click", closeDialog);
+  }
+}
+
+//PopOpen
 function popOpen(student) {
   document.querySelector(".houseColours").classList.add(student.house);
   document;
 
   document.querySelector("[data-field=studentPortait]").src = student.imageFile;
-  document.querySelector("[data-field=houdeCrest").src =
-    "images/" + student.house + "Crest.svg";
-  document.querySelector("[data-field=popFirstName]").textContent =
-    student.firstName;
-  document.querySelector("[data-field=popMiddleName]").textContent =
-    student.middleName;
-  document.querySelector("#pop-up [data-field=prefect]").dataset.prefect =
-    student.prefect;
-  document.querySelector("#pop-up [data-field=expelled]").dataset.expelled =
-    student.expelled;
+  document.querySelector("[data-field=houdeCrest").src = "images/" + student.house + "Crest.svg";
+  document.querySelector("[data-field=popFirstName]").textContent = student.firstName;
+  document.querySelector("[data-field=popMiddleName]").textContent = student.middleName;
+  document.querySelector("#pop-up [data-field=prefect]").dataset.prefect = student.prefect;
+  document.querySelector("#pop-up [data-field=expelled]").dataset.expelled = student.expelled;
   if (student.nickName != undefined) {
-    document.querySelector(
-      "[data-field=popNickname]"
-    ).textContent = `"${student.nickName}"`;
+    document.querySelector("[data-field=popNickname]").textContent = `"${student.nickName}"`;
   }
-  document.querySelector(
-    "[data-field=popLastName]"
-  ).textContent = `${student.lastName}, `;
+  document.querySelector("[data-field=popLastName]").textContent = `${student.lastName}, `;
   document.querySelector("[data-field=popHouse]").textContent = student.house;
-  document.querySelector("[data-field=bloodStatus]").textContent =
-    student.bloodStatus;
+  document.querySelector("[data-field=bloodStatus]").textContent = student.bloodStatus;
   document.querySelector("#pop-up").classList.remove("hidden");
   document.querySelector(".closeButton").addEventListener("click", () => {
     document.querySelector(".houseColours").classList.remove(student.house);
@@ -394,16 +393,10 @@ function popOpen(student) {
 //Expell
 function tryToExpell(selectedStudent) {
   document.querySelector("#expelWarning").classList.remove("hidden");
-  document.querySelector(
-    "#expelWarning [data-field=expelledStudent]"
-  ).textContent = selectedStudent.firstName;
-  document
-    .querySelector("#expelWarning .closeButton")
-    .addEventListener("click", closeDialog);
+  document.querySelector("#expelWarning [data-field=expelledStudent]").textContent = selectedStudent.firstName;
+  document.querySelector("#expelWarning .closeButton").addEventListener("click", closeDialog);
 
-  document
-    .querySelector("#expelWarning #removeStudent")
-    .addEventListener("click", expelStudent);
+  document.querySelector("#expelWarning #removeStudent").addEventListener("click", expelStudent);
 
   function expelStudent() {
     let index = currentData.indexOf(selectedStudent);
@@ -416,12 +409,8 @@ function tryToExpell(selectedStudent) {
   }
 
   function closeDialog() {
-    document
-      .querySelector("#expelWarning .closeButton")
-      .removeEventListener("click", closeDialog);
-    document
-      .querySelector("#expelWarning #removeStudent")
-      .removeEventListener("click", expelStudent);
+    document.querySelector("#expelWarning .closeButton").removeEventListener("click", closeDialog);
+    document.querySelector("#expelWarning #removeStudent").removeEventListener("click", expelStudent);
     document.querySelector("#expelWarning").classList.add("hidden");
     buildList();
   }
@@ -430,38 +419,18 @@ function tryToExpell(selectedStudent) {
 //Prefect
 function tryToMakeAPrefect(selectedStudent) {
   const prefects = currentData.filter((student) => student.prefect);
-  const gryffindorPrefects = prefects.filter(
-    (student) => student.house === "Gryffindor"
-  );
-  const hufflepuffPrefects = prefects.filter(
-    (student) => student.house === "Hufflepuff"
-  );
-  const slytheringPrefects = prefects.filter(
-    (student) => student.house === "Slytherin"
-  );
-  const ravenclawPrefects = prefects.filter(
-    (student) => student.house === "Ravenclaw"
-  );
+  const gryffindorPrefects = prefects.filter((student) => student.house === "Gryffindor");
+  const hufflepuffPrefects = prefects.filter((student) => student.house === "Hufflepuff");
+  const slytheringPrefects = prefects.filter((student) => student.house === "Slytherin");
+  const ravenclawPrefects = prefects.filter((student) => student.house === "Ravenclaw");
 
-  if (
-    selectedStudent.house === "Gryffindor" &&
-    gryffindorPrefects.length >= 2
-  ) {
+  if (selectedStudent.house === "Gryffindor" && gryffindorPrefects.length >= 2) {
     removeAorB(gryffindorPrefects[0], gryffindorPrefects[1]);
-  } else if (
-    selectedStudent.house === "Hufflepuff" &&
-    hufflepuffPrefects.length >= 2
-  ) {
+  } else if (selectedStudent.house === "Hufflepuff" && hufflepuffPrefects.length >= 2) {
     removeAorB(hufflepuffPrefects[0], hufflepuffPrefects[1]);
-  } else if (
-    selectedStudent.house === "Slytherin" &&
-    slytheringPrefects.length >= 2
-  ) {
+  } else if (selectedStudent.house === "Slytherin" && slytheringPrefects.length >= 2) {
     removeAorB(slytheringPrefects[0], slytheringPrefects[1]);
-  } else if (
-    selectedStudent.house === "Ravenclaw" &&
-    ravenclawPrefects.length >= 2
-  ) {
+  } else if (selectedStudent.house === "Ravenclaw" && ravenclawPrefects.length >= 2) {
     removeAorB(ravenclawPrefects[0], ravenclawPrefects[1]);
   } else {
     makePrefect(selectedStudent);
@@ -470,37 +439,20 @@ function tryToMakeAPrefect(selectedStudent) {
   function removeAorB(prefectA, prefectB) {
     //ask user to ignore or remove, a or b
     document.querySelector("#prefectWarning").classList.remove("hidden");
-    document
-      .querySelector("#prefectWarning .closeButton")
-      .addEventListener("click", closeDialog);
-    document
-      .querySelector("#prefectWarning #removea")
-      .addEventListener("click", clickRemoveA);
-    document
-      .querySelector("#prefectWarning #removeb")
-      .addEventListener("click", clickRemoveB);
+    document.querySelector("#prefectWarning .closeButton").addEventListener("click", closeDialog);
+    document.querySelector("#prefectWarning #removea").addEventListener("click", clickRemoveA);
+    document.querySelector("#prefectWarning #removeb").addEventListener("click", clickRemoveB);
     //shownames
-    document.querySelector("[data-field=prefectA]").textContent =
-      prefectA.firstName;
-    document.querySelector(
-      "#prefectWarning [data-field=prefectB]"
-    ).textContent = prefectB.firstName;
-    document.querySelector(
-      "#prefectWarning [data-field=prefectHouse]"
-    ).textContent = selectedStudent.house;
+    document.querySelector("[data-field=prefectA]").textContent = prefectA.firstName;
+    document.querySelector("#prefectWarning [data-field=prefectB]").textContent = prefectB.firstName;
+    document.querySelector("#prefectWarning [data-field=prefectHouse]").textContent = selectedStudent.house;
 
     //if use ignore - do nothing
     function closeDialog() {
       document.querySelector("#prefectWarning").classList.add("hidden");
-      document
-        .querySelector("#prefectWarning .closeButton")
-        .removeEventListener("click", closeDialog);
-      document
-        .querySelector("#prefectWarning #removea")
-        .removeEventListener("click", clickRemoveA);
-      document
-        .querySelector("#prefectWarning #removeb")
-        .removeEventListener("click", clickRemoveB);
+      document.querySelector("#prefectWarning .closeButton").removeEventListener("click", closeDialog);
+      document.querySelector("#prefectWarning #removea").removeEventListener("click", clickRemoveA);
+      document.querySelector("#prefectWarning #removeb").removeEventListener("click", clickRemoveB);
     }
     //if user remove a:
     function clickRemoveA() {
@@ -555,26 +507,21 @@ function lastNameClean(lastNames) {
 function lastNameHyphen(lastNames) {
   lastNames = lastNames.charAt(0).toUpperCase() + lastNames.slice(1);
   const hyphenName = lastNames.split("-");
-  hyphenName[1] =
-    hyphenName[1].charAt(0).toUpperCase() + hyphenName[1].slice(1);
+  hyphenName[1] = hyphenName[1].charAt(0).toUpperCase() + hyphenName[1].slice(1);
   lastNames = hyphenName.join("-");
   return lastNames;
 }
 
 function imageFileLocate(imageTitle) {
   if (imageTitle[imageTitle.length - 1] === "patil") {
-    let imageName = `images/${imageTitle[imageTitle.length - 1]}_${
-      imageTitle[0]
-    }.png`;
+    let imageName = `images/${imageTitle[imageTitle.length - 1]}_${imageTitle[0]}.png`;
     return imageName;
   } else if (imageTitle[imageTitle.length - 1].includes("-")) {
     let imageName = imageTitle[imageTitle.length - 1].split("-");
     imageName = `images/${imageName[1]}_${imageTitle[0].charAt(0)}.png`;
     return imageName;
   } else {
-    let imageName = `images/${
-      imageTitle[imageTitle.length - 1]
-    }_${imageTitle[0].charAt(0)}.png`;
+    let imageName = `images/${imageTitle[imageTitle.length - 1]}_${imageTitle[0].charAt(0)}.png`;
     return imageName;
   }
 }
@@ -598,60 +545,61 @@ function checkBloodStatus(lastName) {
 }
 
 //Hacking
+document.addEventListener("keyup", hackTheSystem);
 function hackTheSystem(hacker) {
-  const injectMe = new injectHacker(
-    "Terese",
-    "Tess",
-    "Jensen",
-    "Hufflepuff",
-    false,
-    false,
-    false,
-    "Muggle-born",
-    "hacker"
-  );
-  console.log(injectMe);
+  isHacked = true;
+  const injectMe = new injectHacker("Terese", "Tess", "Jensen", "Hufflepuff", false, false, false, "Muggle-born", "hacker");
+
   if (allStudentData[allStudentData.length - 1].firstName != "Terese") {
-    document.querySelector("#inqusitorWarning").classList.remove("hidden");
-    document.querySelector("#inqusitorWarning p").textContent =
-      "This system has been hacked";
-    document
-      .querySelector("#inqusitorWarning .closeButton")
-      .addEventListener("click", () => {
-        document.querySelector("#inqusitorWarning").classList.add("hidden");
-      });
     allStudentData.push(injectMe);
     currentData.push(injectMe);
   }
-  //make expelling impossible
-  function injectHacker(
-    firstName,
-    nickName,
-    lastName,
-    house,
-    expelled,
-    prefect,
-    inquisitorial,
-    bloodStatus,
-    title
-  ) {
-    this.firstName = firstName;
-    this.nickName = nickName;
-    this.lastName = lastName;
-    this.house = house;
-    this.expelled = expelled;
-    this.prefect = prefect;
-    this.inquisitorial = inquisitorial;
-    this.bloodStatus = bloodStatus;
-    this.title = title;
-  }
-  function scrambleBloodStatus() {
-    //with each reDisplay bloodStatus gets assigned at random
-    let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
-  }
-  function removeInquisitorial() {
-    //inqusitorial is only temporary
-    //display when inqusitorial is removed
-  }
+  allStudentData.forEach(removePrivilege);
+  allStudentData.forEach(scrambleBloodStatus);
+  setFontHack();
+  removedFromGroup("All Students", "Inqusitorial");
   buildList();
+}
+function removeInquisitorial() {
+  //inqusitorial is only temporary
+  //display when inqusitorial is removed
+}
+function injectHacker(firstName, nickName, lastName, house, expelled, prefect, inquisitorial, bloodStatus, title) {
+  this.firstName = firstName;
+  this.nickName = nickName;
+  this.lastName = lastName;
+  this.house = house;
+  this.expelled = expelled;
+  this.prefect = prefect;
+  this.inquisitorial = inquisitorial;
+  this.bloodStatus = bloodStatus;
+  this.title = title;
+}
+function scrambleBloodStatus(student) {
+  if (student.bloodStatus === "Muggle-born" || student.bloodStatus === "Halfblood") {
+    student.bloodStatus = "Pureblood";
+  } else {
+    function randomNumber(max) {
+      return Math.floor(Math.random() * max);
+    }
+    let bloodStatusArray = ["Halfblood", "Pureblood", "Muggle-born"];
+    let x = randomNumber(3);
+    student.bloodStatus = bloodStatusArray[x];
+  }
+  //with each reDisplay bloodStatus gets assigned at random
+}
+function setFontHack() {
+  var link = document.createElement("link");
+  link.setAttribute("rel", "stylesheet");
+  link.setAttribute("type", "text/css");
+  link.setAttribute("href", "https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap");
+  document.head.appendChild(link);
+
+  document.querySelector("main").style.backgroundColor = "var(--fith-colour)";
+  document.querySelector("main h1").style.fontFamily = "'Libre Barcode 39', cursive";
+  document.querySelector(".listFiltering h5").style.fontFamily = "'Libre Barcode 39', cursive";
+  document.querySelector(".listSorting h5").style.fontFamily = "'Libre Barcode 39', cursive";
+}
+function removePrivilege(student) {
+  student.inquisitorial = false;
 }
