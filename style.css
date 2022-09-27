@@ -306,7 +306,13 @@ li {
 main {
   min-height: 80vh;
 }
-
+.listsInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  max-width: 50%;
+  padding: 0 2.3%;
+}
 /* Media Queries */
 
 @supports (display: grid) {

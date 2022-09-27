@@ -217,6 +217,7 @@ function buildList() {
   const currentList = filterList(currentData);
   const sortedList = sortList(currentList);
   const searchedList = searchList(sortedList);
+  aboutDisplay(searchedList);
   displayList(searchedList);
 }
 
@@ -268,7 +269,7 @@ function displayStudent(student) {
 
   //Expelled
   myCopy.querySelector("[data-field=expelled]").dataset.expelled = student.expelled;
-  if (isHacked === false) {
+  if (student.title != "hacker") {
     myCopy.querySelector("[data-field=expelled]").addEventListener("click", clickExpell);
   } else {
     myCopy.querySelector("[data-field=expelled]").addEventListener("click", cantExpel);
@@ -611,4 +612,19 @@ function reScramble(student) {
     let x = randomNumber(3);
     student.bloodStatus = bloodStatusArray[x];
   }
+}
+
+function aboutDisplay(currentInfo) {
+  let amountGryffindor = allStudentData.filter(isGryffindor).length;
+  let amountHufflepuff = allStudentData.filter(isHufflepuff).length;
+  let amountSlytherin = allStudentData.filter(isSlytherin).length;
+  let amountRavenclaw = allStudentData.filter(isRavenclaw).length;
+
+  document.querySelector(".listsInfo [data-field=amountCurrentDisplay]").textContent = currentInfo.length;
+  document.querySelector(".listsInfo [data-field=amountCurrentStudents]").textContent = currentData.length;
+  document.querySelector(".listsInfo [data-field=amountExpelled]").textContent = expelledData.length;
+  document.querySelector(".listsInfo [data-field=amountGryffindor]").textContent = amountGryffindor;
+  document.querySelector(".listsInfo [data-field=amountHufflepuff]").textContent = amountHufflepuff;
+  document.querySelector(".listsInfo [data-field=amountSlytherin]").textContent = amountSlytherin;
+  document.querySelector(".listsInfo [data-field=amountRavenclaw]").textContent = amountRavenclaw;
 }
