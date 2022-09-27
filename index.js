@@ -12,9 +12,6 @@ let searchData = [];
 let studentJSON;
 let familyJSON;
 let isHacked = false;
-/////To do:
-// - hacking
-// - update design
 
 //settings
 const settings = {
@@ -430,7 +427,7 @@ function tryToMakeAPrefect(selectedStudent) {
     document.querySelector("#prefectWarning #removea").addEventListener("click", clickRemoveA);
     document.querySelector("#prefectWarning #removeb").addEventListener("click", clickRemoveB);
     //shownames
-    document.querySelector("[data-field=prefectA]").textContent = prefectA.firstName;
+    document.querySelector("#prefectWarning [data-field=prefectA]").textContent = prefectA.firstName;
     document.querySelector("#prefectWarning [data-field=prefectB]").textContent = prefectB.firstName;
     document.querySelector("#prefectWarning [data-field=prefectHouse]").textContent = selectedStudent.house;
 
@@ -535,7 +532,6 @@ function checkBloodStatus(lastName) {
 window.addEventListener("keydown", (event) => {
   if (event.code === "Digit8" && event.key === "8") {
     hackTheSystem();
-    console.log("yes");
   }
 });
 function hackTheSystem() {
@@ -551,10 +547,6 @@ function hackTheSystem() {
     removedFromGroup("All Students", "Inqusitorial");
     buildList();
   }
-}
-function removeInquisitorial() {
-  //inqusitorial is only temporary
-  //display when inqusitorial is removed
 }
 function injectHacker(firstName, nickName, lastName, house, expelled, prefect, inquisitorial, bloodStatus, title) {
   this.firstName = firstName;
