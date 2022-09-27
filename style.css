@@ -50,7 +50,7 @@ header {
   background-color: var(--secondary-colour);
   color: var(--main-bg-colour);
   font-family: var(--logo-font);
-  background-image: url(/images/floral-yellow.svg);
+  background-image: url(images/floral-yellow.svg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
